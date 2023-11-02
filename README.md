@@ -1,2 +1,2 @@
 # Delta
-DeltΔ, a javascript platformer made with matter.js
+DeltΔ, a javascript platformer made with matter.js and p5.js
