@@ -1,32 +1,41 @@
-// module aliases
-var Engine = Matter.Engine,
-    Render = Matter.Render,
-    Runner = Matter.Runner,
-    Bodies = Matter.Bodies,
-    Composite = Matter.Composite;
+// Coding Train / Daniel Shiffman
+// 15.7 Matter.js tutorial Basic Implemenation
 
-// create an engine
-var engine = Engine.create();
+// Youtube: https://www.youtube.com/watch?v=urR596FsU68
 
-// create a renderer
-var render = Render.create({
-    element: document.body,
-    engine: engine
-});
+// Note that the syntax in the sketch has been updated. Refer to NOC Chapter 6
 
-// create two boxes and a ground
-var boxA = Bodies.rectangle(400, 200, 80, 80);
-var boxB = Bodies.rectangle(450, 50, 80, 80);
-var ground = Bodies.rectangle(400, 610, 810, 60, { isStatic: true });
+// let Engine = Matter.Engine,
+//     World = Matter.World,
+//     Bodies = Matter.Bodies;
+    
+const { Engine, World, Bodies, Composite } = Matter;
 
-// add all of the bodies to the world
-Composite.add(engine.world, [boxA, boxB, ground]);
+let engine;
+let world;
+let boxes = [];
+let ground;
 
-// run the renderer
-Render.run(render);
+function setup() {
+    createCanvas(400, 400);
+    // create an engine
+    engine = Engine.create();
+    world = engine.world;
+    // Engine.run is deprecated
+    ground = new Boundary(200, height, width, 100);
+    Composite.add(world, ground);
 
-// create runner
-var runner = Runner.create();
+}
+    
+function mousePressed() {
+    boxes.push(new Box(mouseX, mouseY, 50,50));
+}
 
-// run the engine
-Runner.run(runner, engine);
+function draw() {
+    background(51);
+    Engine.update(engine);
+    for (let i = 0; i < boxes.length; i++) {
+        boxes[i].show();
+    }
+    ground.show();
+}
