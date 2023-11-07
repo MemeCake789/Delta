@@ -1,5 +1,3 @@
-
-
 // module aliases 
 var Engine = Matter.Engine,
     Render = Matter.Render,
@@ -64,8 +62,8 @@ class Level {
 var level1 = new Level();
 
 
-level1.addWall(0, 0, 810, 60);
-level1.addWall(-100,-100,100,500)
+level1.addWall(0, 0, 2000, 60);
+level1.addWall(-100,-300,100,200)
 
 // add bodies to world 
 World.add(engine.world, [player]);
@@ -112,11 +110,14 @@ Render.lookAt(render, {
 let I = 4
 // side scroll
 Matter.Events.on(engine, 'afterUpdate', function() {
-  targetMin.x = Math.min(player.position.x, mouse.position.x) - ( window.innerHeight / I );
-  targetMin.y = Math.min(player.position.y, mouse.position.y) - ( window.innerWidth / I ); 
-  targetMax.x = Math.max(player.position.x, mouse.position.x) + ( window.innerHeight / I );
-  targetMax.y = Math.max(player.position.y, mouse.position.y) + ( window.innerWidth / I );
+  // Huge math to get the camera to follow the mouse and player ( with easing )
+  
+  targetMin.x = player.position.x + ( (mouse.position.x / 5) - 500 ); 
+  targetMin.y = player.position.y + ( (mouse.position.y / 5) - 500 );
 
+  targetMax.x = player.position.x + ( (mouse.position.x / 2) + 400 );
+  targetMax.y = player.position.y + ( (mouse.position.y / 2) + 400 );
+  
   var easeAmount = 0.05;
   render.bounds.min.x += (targetMin.x - render.bounds.min.x) * easeAmount;
   render.bounds.min.y += (targetMin.y - render.bounds.min.y) * easeAmount;

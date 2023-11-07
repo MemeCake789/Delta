@@ -1,1 +1,4 @@
-1. Fix player box so it does not rotate
+1. Fix player box so it does not rotate.
+2. Fix bug with wall where it launces the player into the air if its touching the ground and the side of the wall.
+3. Create separate files to manage level, player, and main (main incorparates level and player file).
+4. Find out why .keyCode is deprecated and fix it.
