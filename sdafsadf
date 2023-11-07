@@ -1,0 +1,132 @@
+// module aliases  
+var Engine = Matter.Engine,
+  Render = Matter.Render,
+  World = Matter.World,   
+  Bodies = Matter.Bodies,
+  Body = Matter.Body,
+  Mouse = Matter.Mouse;
+
+// create engine   
+var engine = Engine.create();
+
+// create renderer
+var render = Render.create({
+  element: document.body,
+  engine: engine,
+  options: {
+    width: 800, 
+    height: 600
+  }
+}); 
+
+// create player
+var player = Bodies.rectangle(400, 300, 50, 50); 
+
+// create level
+const levelWidth = 1000;
+const levelHeight = 600;
+
+// camera offset
+const offset = 100; 
+
+// smooth camera params
+const smoothRate = 0.05;
+let targetMin = {x: 0, y: 0};
+let targetMax = {x: 800, y: 600};   
+
+// create level
+var level1 = new Level();
+level1.addWall(0, 0, levelWidth, 60); 
+
+// add bodies  
+World.add(engine.world, [player]);
+level1.addToWorld(engine.world);
+
+// run engine
+Engine.run(engine);
+
+// run renderer
+Render.run(render);
+
+// create mouse
+var mouse = Mouse.create(render.canvas);
+
+
+// input keys
+let keys = {
+  37: false, // left
+  39: false, // right
+  38: false, // up
+  87: false, // W  
+  65: false, // A
+  83: false, // S
+  68: false  // D
+};
+
+// key handlers
+window.addEventListener('keydown', function(e) {
+  if (e.keyCode in keys) {
+    keys[e.keyCode] = true;
+  }  
+});
+
+window.addEventListener('keyup', function(e) {
+  if (e.keyCode in keys) {
+    keys[e.keyCode] = false;
+  }
+});
+
+
+// game loop
+function gameLoop() {
+    
+  // left/right movement
+  if (keys[37] || keys[65]) { 
+    Body.setVelocity(player, {x: -5, y: player.velocity.y});
+  }
+  
+  if (keys[39] || keys[68]) {
+    Body.setVelocity(player, {x: 5, y: player.velocity.y});
+  }
+  
+  // jump only if touching wall
+  if ((keys[38] || keys[87])) {
+    if (touchingWall) {
+      Body.applyForce(player, player.position, {x: 0, y: -0.3});
+    }
+  }
+
+
+  // update camera
+  let targetPlayerMinX = player.position.x - offset;
+  let targetPlayerMinY = player.position.y - offset;
+
+  let targetPlayerMaxX = player.position.x + offset;
+  let targetPlayerMaxY = player.position.y + offset;
+
+  targetPlayerMinX = Math.max(targetPlayerMinX, 0);
+  targetPlayerMinY = Math.max(targetPlayerMinY, 0);
+
+  targetPlayerMaxX = Math.min(targetPlayerMaxX, levelWidth);
+  targetPlayerMaxY = Math.min(targetPlayerMaxY, levelHeight);
+
+  targetMin.x = lerp(targetMin.x, targetPlayerMinX, smoothRate);
+  targetMin.y = lerp(targetMin.y, targetPlayerMinY, smoothRate);
+
+  targetMax.x = lerp(targetMax.x, targetPlayerMaxX, smoothRate);
+  targetMax.y = lerp(targetMax.y, targetPlayerMaxY, smoothRate);
+
+  Render.lookAt(render, {
+    min: targetMin, 
+    max: targetMax
+  });
+
+  // handle player movement
+  
+  // update physics
+  Engine.update(engine, 1000/60);
+
+  requestAnimationFrame(gameLoop);
+}
+
+gameLoop();
