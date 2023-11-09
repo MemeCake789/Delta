@@ -19,6 +19,8 @@ var render = Render.create({
   }
 });
 
+var easeAmount = 1;
+
 // create player and ground
 var player = Bodies.rectangle(0, -100, 80, 80);
 
@@ -62,8 +64,8 @@ class Level {
 var level1 = new Level();
 
 
-level1.addWall(0, 0, 2000, 60);
-level1.addWall(-100,-300,100,200)
+level1.addWall(0, 0, 1000, 60);
+level1.addWall(-500,-300,1000,400)
 
 // add bodies to world 
 World.add(engine.world, [player]);
@@ -75,7 +77,7 @@ Engine.run(engine);
 // run renderer  
 Render.run(render);
 
-// check for wall collisions
+// collision events
 Matter.Events.on(engine, 'collisionStart', function(event) {
   const pairs = event.pairs;
 
@@ -84,7 +86,15 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
     
     if (pair.bodyA === player || pair.bodyB === player) {
       if (pair.bodyA.label === 'wall' || pair.bodyB.label === 'wall') {
-        touchingWall = true;
+        
+        // get the wall body
+        const wall = pair.bodyA.label === 'wall' ? pair.bodyA : pair.bodyB;
+        
+        // check if player is above wall 
+        if (player.position.y < wall.position.y) {
+          touchingWall = true;
+        }
+        
       }
     }
   }  
@@ -118,7 +128,6 @@ Matter.Events.on(engine, 'afterUpdate', function() {
   targetMax.x = player.position.x + ( (mouse.position.x / 2) + 400 );
   targetMax.y = player.position.y + ( (mouse.position.y / 2) + 400 );
   
-  var easeAmount = 0.05;
   render.bounds.min.x += (targetMin.x - render.bounds.min.x) * easeAmount;
   render.bounds.min.y += (targetMin.y - render.bounds.min.y) * easeAmount;
   render.bounds.max.x += (targetMax.x - render.bounds.max.x) * easeAmount;
@@ -154,6 +163,8 @@ window.addEventListener('keyup', function(e) {
   }
 });
 
+
+
 // game loop
 function gameLoop() {
 
@@ -172,7 +183,25 @@ function gameLoop() {
       Body.applyForce(player, player.position, {x: 0, y: -0.3});
     }
   }
+// Set level minimum y value 
+const LEVEL_MIN_Y = 1000;
 
+// Check player position each engine update
+Matter.Events.on(engine, 'afterUpdate', function() {
+
+  if (player.position.y > LEVEL_MIN_Y) {
+    // Player is below level minimum, move back up
+
+    Body.setPosition(player, {
+      x: -100,
+      y: -3000
+    });
+
+
+  }
+ 
+
+});
   requestAnimationFrame(gameLoop);
 }
 
