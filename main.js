@@ -19,7 +19,8 @@ var render = Render.create({
   }
 });
 
-var easeAmount = 1;
+var easeAmount = 0.05;
+console.log("hwlll")
 
 // create player and ground
 var player = Bodies.rectangle(0, -100, 80, 80);
