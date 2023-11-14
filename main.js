@@ -15,50 +15,70 @@ var render = Render.create({
   engine: engine, 
   options: {
     width: window.innerWidth,
-    height: window.innerHeight 
-  }
+    height: window.innerHeight,
+    showVelocties: true 
+  },
+  
+  
 });
 
 var easeAmount = 0.05;
-console.log("hwlll")
 
 // create player and ground
-var player = Bodies.rectangle(0, -100, 80, 80);
+var player = Bodies.rectangle(0, -500, 80, 80);
+
+
 
 // wall contact jumping  
 let touchingWall = false;
 
-// create Wall class
-// Level class with integrated Wall 
+// Level class with hitboxes
 class Level {
 
-    constructor() {
-      this.walls = [];
-    }
-  
-    addWall(x, y, width, height) {
-      this.walls.push({
-        x: x,
-        y: y, 
-        width: width,
-        height: height,
-        isStatic: true,
-        label: 'wall' 
-      });
-    }
-  
-    addToWorld(world) {
-      var bodies = this.walls.map(wall => {
-        return Bodies.rectangle(wall.x, wall.y, wall.width, wall.height, {
-          isStatic: wall.isStatic,
-          label: wall.label
-        });
-      });
-      
-      World.add(world, bodies);
-    }
-  
+  constructor() {
+    this.walls = [];
   }
+
+  addWall(x, y, width, height) {
+
+    // Add wall
+    this.walls.push({
+      x: x,  
+      y: y,
+      width: width,
+      height: height,
+      isStatic: true,
+      label: 'wall'
+    });
+    
+    // Add hitbox above wall
+    const hitboxHeight = 20;
+    this.walls.push({
+      x: x,
+      y: y -( height/2),
+      width: width, 
+      height: hitboxHeight,
+      isStatic: true,
+      label: 'hitbox',
+      
+      
+    });
+
+  }
+
+  addToWorld(world) {
+    var bodies = this.walls.map(wall => {
+      return Bodies.rectangle(wall.x, wall.y, wall.width, wall.height, {
+        isStatic: wall.isStatic,
+        label: wall.label
+      });
+    });
+    
+    
+    World.add(world, bodies);
+  }
+
+}
   
 
 // create level  
@@ -66,7 +86,7 @@ var level1 = new Level();
 
 
 level1.addWall(0, 0, 1000, 60);
-level1.addWall(-500,-300,1000,400)
+level1.addWall(-500,-300,200,400)
 
 // add bodies to world 
 World.add(engine.world, [player]);
@@ -78,27 +98,16 @@ Engine.run(engine);
 // run renderer  
 Render.run(render);
 
-// collision events
 Matter.Events.on(engine, 'collisionStart', function(event) {
-  const pairs = event.pairs;
-
-  for (let i = 0; i < pairs.length; i++) {
-    const pair = pairs[i];
-    
-    if (pair.bodyA === player || pair.bodyB === player) {
-      if (pair.bodyA.label === 'wall' || pair.bodyB.label === 'wall') {
-        
-        // get the wall body
-        const wall = pair.bodyA.label === 'wall' ? pair.bodyA : pair.bodyB;
-        
-        // check if player is above wall 
-        if (player.position.y < wall.position.y) {
-          touchingWall = true;
-        }
-        
+  var pairs = event.pairs;
+ 
+  for (var i = 0; i < pairs.length; i++) {
+      var pair = pairs[i];
+ 
+      if (pair.bodyA === player && pair.bodyB.label === 'hitbox' || pair.bodyA.label === 'hitbox' && pair.bodyB === player)  { // checks if player is colliding with the ground
+        touchingWall = true;
       }
-    }
-  }  
+  }
 });
 
 Matter.Events.on(engine, 'collisionEnd', function() {
@@ -195,7 +204,7 @@ Matter.Events.on(engine, 'afterUpdate', function() {
 
     Body.setPosition(player, {
       x: -100,
-      y: -3000
+      y: -1000
     });
 
 
