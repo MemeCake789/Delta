@@ -88,8 +88,8 @@ var level1 = new Level();
 
 level1.addWall(0, 0, 1000, 60);
 level1.addWall(-500,-220,100,500)
-level1.addWall(500,-320,100,250)
-level1.addWall(300,-250,300,50)
+level1.addWall(450,-300,100,250)
+level1.addWall(300,-200,300,50)
 
 
 // add bodies to world 
