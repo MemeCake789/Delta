@@ -1,4 +1,5 @@
-// module aliases 
+// ███████████████████████████████████ SETUP ████████████████████████████████████████
+
 var Engine = Matter.Engine,
     Render = Matter.Render,
     World = Matter.World,  
@@ -24,10 +25,10 @@ var render = Render.create({
 
 var easeAmount = 0.05;
 
-// create player and ground
+// create player
 var player = Bodies.rectangle(0, -500, 80, 80);
 
-
+// ███████████████████████████████████ WALLS ████████████████████████████████████████
 
 // wall contact jumping  
 let touchingWall = false;
@@ -86,7 +87,10 @@ var level1 = new Level();
 
 
 level1.addWall(0, 0, 1000, 60);
-level1.addWall(-500,-300,200,400)
+level1.addWall(-500,-220,100,500)
+level1.addWall(500,-320,100,250)
+level1.addWall(300,-250,300,50)
+
 
 // add bodies to world 
 World.add(engine.world, [player]);
@@ -97,6 +101,8 @@ Engine.run(engine);
 
 // run renderer  
 Render.run(render);
+
+// ███████████████████████████████████ COLLISION ████████████████████████████████████████
 
 Matter.Events.on(engine, 'collisionStart', function(event) {
   var pairs = event.pairs;
@@ -128,7 +134,10 @@ Render.lookAt(render, {
 });
 
 let I = 4
-// side scroll
+
+// ███████████████████████████████████ SIDE SCROLLING ████████████████████████████████████████
+
+
 Matter.Events.on(engine, 'afterUpdate', function() {
   // Huge math to get the camera to follow the mouse and player ( with easing )
   
@@ -148,6 +157,9 @@ Matter.Events.on(engine, 'afterUpdate', function() {
     max: render.bounds.max
   });
 });
+
+
+// ███████████████████████████████████ MOVEMENT ████████████████████████████████████████
 
 // input keys
 let keys = {
@@ -195,6 +207,9 @@ function gameLoop() {
   }
 // Set level minimum y value 
 const LEVEL_MIN_Y = 1000;
+
+
+// ███████████████████████████████████ GAME LOOP ████████████████████████████████████████
 
 // Check player position each engine update
 Matter.Events.on(engine, 'afterUpdate', function() {
