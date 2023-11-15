@@ -7,6 +7,7 @@ var Engine = Matter.Engine,
     Body = Matter.Body,
     Mouse = Matter.Mouse;
 
+
 // create engine  
 var engine = Engine.create();
 
@@ -24,9 +25,25 @@ var render = Render.create({
 });
 
 var easeAmount = 0.05;
+// Player
+const playerWidth = 80;
+const playerHeight = 80;
+const hitboxWidth = playerWidth * 0.8; 
+const hitboxHeight = 10;
+const cubeWidth = 20;
+const cubeHeight = 60;
 
-// create player
-var player = Bodies.rectangle(0, -500, 80, 80);
+const player = Body.create({
+  parts: [
+    Bodies.rectangle(0, -500, playerWidth, playerHeight),
+    Bodies.rectangle(0, -463, hitboxWidth, hitboxHeight, {isSensor: true}),
+    Bodies.rectangle(0, 0, cubeWidth, cubeHeight) 
+  ],
+  
+  frictionAir: 0.02,
+
+  label: 'player'
+});
 
 // ███████████████████████████████████ WALLS ████████████████████████████████████████
 
