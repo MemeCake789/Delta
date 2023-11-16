@@ -30,27 +30,19 @@ const playerWidth = 80;
 const playerHeight = 80;
 const hitboxWidth = playerWidth * 0.8; 
 const hitboxHeight = 10;
-const cubeWidth = 20;
-const cubeHeight = 60;
 
-const player = Bodies.rectangle(0, -500, playerWidth, playerHeight, {
-  chamfer: {radius: 10},
-  inertia: Infinity // stop rotation
 
+
+const player = Body.create({
+  parts: [
+    Bodies.rectangle(0, -500, playerWidth, playerHeight ),
+    Bodies.rectangle(0, -460, hitboxWidth, hitboxHeight, {label: 'foot'}), // thanks to landgreen for helping with this
+  ],
+  
+  frictionAir: 0.02,
+  inertia: Infinity, // stop rotation
+  label: 'player'
 });
-
-// Going to leave this alone until i can figure out how to make this work
-// const player = Body.create({
-//   parts: [
-//     Bodies.rectangle(0, -500, playerWidth, playerHeight),
-//     Bodies.rectangle(0, -463, hitboxWidth, hitboxHeight, {isSensor: true}),
-//     Bodies.rectangle(0, -500, cubeWidth, cubeHeight) 
-//   ],
-//   
-//   frictionAir: 0.02,
-// 
-//   label: 'player'
-// });
 
 // ███████████████████████████████████ WALLS ████████████████████████████████████████
 
@@ -75,19 +67,7 @@ class Level {
       isStatic: true,
       label: 'wall'
     });
-    
-    // Add hitbox above wall
-    const hitboxHeight = 20;
-    this.walls.push({
-      x: x,
-      y: y -( height/2),
-      width: width, 
-      height: hitboxHeight,
-      isStatic: true,
-      label: 'hitbox',
-      
-      
-    });
+
 
   }
 
@@ -134,7 +114,7 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
   for (var i = 0; i < pairs.length; i++) {
       var pair = pairs[i];
  
-      if (pair.bodyA === player && pair.bodyB.label === 'hitbox' || pair.bodyA.label === 'hitbox' && pair.bodyB === player)  { // checks if player is colliding with the ground
+      if (pair.bodyA.label === 'foot' && pair.bodyB.label === 'wall' || pair.bodyA.label === 'wall' && pair.bodyB.label === 'foot')  { // checks if player is colliding with the ground
         touchingWall = true;
       }
   }
@@ -229,6 +209,18 @@ function gameLoop() {
       Body.applyForce(player, player.position, {x: 0, y: -0.3});
     }
   }
+
+  let playerStats = {
+    xPosition: 'X POSITION',
+    yPosition: 'Y POSITION',
+    touchingWall: 'TOUCHING WALL'
+ };
+ 
+ console.log('Player stats:');
+ console.log('X Position:                     ' + playerStats.xPosition);
+ console.log('Y Position:                     ' + playerStats.yPosition);
+ console.log('Touching Wall:                  ' + playerStats.touchingWall);
+ 
 // Set level minimum y value 
 const LEVEL_MIN_Y = 1000;
 
