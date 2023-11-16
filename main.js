@@ -37,12 +37,15 @@ const player = Body.create({
   parts: [
     Bodies.rectangle(0, -500, playerWidth, playerHeight ),
     Bodies.rectangle(0, -460, hitboxWidth, hitboxHeight, {label: 'foot'}), // thanks to landgreen for helping with this
+    Bodies.polygon(0, -500, 3, 10, { label: 'eye',   angle: 0 })
   ],
   
   frictionAir: 0.02,
   inertia: Infinity, // stop rotation
   label: 'player'
 });
+
+
 
 // ███████████████████████████████████ WALLS ████████████████████████████████████████
 
@@ -92,8 +95,8 @@ var level1 = new Level();
 
 level1.addWall(0, 0, 1000, 60);
 level1.addWall(-500,-220,100,500)
-level1.addWall(450,-300,100,250)
-level1.addWall(300,-200,300,50)
+level1.addWall(450,-250,100,250)
+level1.addWall(300,-150,300,50)
 
 
 // add bodies to world 
@@ -210,16 +213,8 @@ function gameLoop() {
     }
   }
 
-  let playerStats = {
-    xPosition: 'X POSITION',
-    yPosition: 'Y POSITION',
-    touchingWall: 'TOUCHING WALL'
- };
+  
  
- console.log('Player stats:');
- console.log('X Position:                     ' + playerStats.xPosition);
- console.log('Y Position:                     ' + playerStats.yPosition);
- console.log('Touching Wall:                  ' + playerStats.touchingWall);
  
 // Set level minimum y value 
 const LEVEL_MIN_Y = 1000;
