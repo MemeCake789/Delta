@@ -33,17 +33,24 @@ const hitboxHeight = 10;
 const cubeWidth = 20;
 const cubeHeight = 60;
 
-const player = Body.create({
-  parts: [
-    Bodies.rectangle(0, -500, playerWidth, playerHeight),
-    Bodies.rectangle(0, -463, hitboxWidth, hitboxHeight, {isSensor: true}),
-    Bodies.rectangle(0, 0, cubeWidth, cubeHeight) 
-  ],
-  
-  frictionAir: 0.02,
+const player = Bodies.rectangle(0, -500, playerWidth, playerHeight, {
+  chamfer: {radius: 10},
+  inertia: Infinity // stop rotation
 
-  label: 'player'
 });
+
+// Going to leave this alone until i can figure out how to make this work
+// const player = Body.create({
+//   parts: [
+//     Bodies.rectangle(0, -500, playerWidth, playerHeight),
+//     Bodies.rectangle(0, -463, hitboxWidth, hitboxHeight, {isSensor: true}),
+//     Bodies.rectangle(0, -500, cubeWidth, cubeHeight) 
+//   ],
+//   
+//   frictionAir: 0.02,
+// 
+//   label: 'player'
+// });
 
 // ███████████████████████████████████ WALLS ████████████████████████████████████████
 
