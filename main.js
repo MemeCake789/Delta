@@ -20,6 +20,7 @@ var render = Render.create({
     height: window.innerHeight,
     wireframes: false,
     showDebug: true,
+    showVelocity: true,
 
     
   },
@@ -54,6 +55,19 @@ const player = Body.create({
   inertia: Infinity, // stop rotation
   label: 'player'
 });
+
+// Add this function
+function spawnCubes() {
+  for (let i = 0; i < 200; i++) {
+    let x = 100;
+    let y = -700;
+    let size = 10;
+    let cube = Bodies.rectangle(x, y, size, size ,{  label: 'cube'  });
+
+    World.add(engine.world, cube); 
+  }
+}
+
 
 
 
@@ -122,20 +136,21 @@ Render.run(render);
 // ███████████████████████████████████ COLLISION ████████████████████████████████████████
 
 Matter.Events.on(engine, 'collisionStart', function(event) {
-  var pairs = event.pairs;
- 
-  for (var i = 0; i < pairs.length; i++) {
-      var pair = pairs[i];
- 
-      if (pair.bodyA.label === 'foot' && pair.bodyB.label === 'wall' || pair.bodyA.label === 'wall' && pair.bodyB.label === 'foot')  { // checks if player is colliding with the ground
-        touchingWall = true;
-      }
-  }
+  event.pairs.forEach(function(pair) {
+    if (pair.bodyA.label === 'foot' && 
+        (pair.bodyB.label === 'wall' || pair.bodyB.label === 'cube' || pair.bodyB.label === 'ground')) {
+      touchingWall = true;
+    }
+  });
 });
 
 Matter.Events.on(engine, 'collisionEnd', function() {
   touchingWall = false; 
 });
+
+
+
+// ███████████████████████████████████ SIDE SCROLLING ████████████████████████████████████████
 
 // create mouse
 var mouse = Mouse.create(render.canvas);
@@ -151,9 +166,6 @@ Render.lookAt(render, {
 });
 
 let I = 4
-
-// ███████████████████████████████████ SIDE SCROLLING ████████████████████████████████████████
-
 
 Matter.Events.on(engine, 'afterUpdate', function() {
   // Huge math to get the camera to follow the mouse and player ( with easing )
@@ -222,7 +234,7 @@ function gameLoop() {
       Body.applyForce(player, player.position, {x: 0, y: -0.3});
     }
   }
-
+  print("pairs")
   
  
  
@@ -243,14 +255,26 @@ Matter.Events.on(engine, 'afterUpdate', function() {
       y: -1000
     });
 
-
   }
  
+  engine.world.bodies.forEach((body) => {
+    if (body.label === 'cube') {
+      if (body.position.y > 1000) { 
+        Body.setPosition(body, {
+          x: 0, 
+          y: -500 
+        });
+
+      }
+    }
+  });
+
 
 });
   requestAnimationFrame(gameLoop);
 }
-
+spawnCubes();
 gameLoop();
+
 
 
