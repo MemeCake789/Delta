@@ -166,10 +166,10 @@ Matter.Events.on(engine, 'afterUpdate', function() {
   // Huge math to get the camera to follow the mouse and player ( with easing )
   
   targetMin.x = player.position.x + ( (mouse.position.x / 5) - 500 ); 
-  targetMin.y = player.position.y + ( (mouse.position.y / 5) - 500 );
+  targetMin.y = player.position.y + ( (mouse.position.y / 4) - 500 );
 
-  targetMax.x = player.position.x + ( (mouse.position.x / 2) + 400 );
-  targetMax.y = player.position.y + ( (mouse.position.y / 2) + 400 );
+  targetMax.x = player.position.x + ( (mouse.position.x *0.7) + 400 );
+  targetMax.y = player.position.y + ( (mouse.position.y *0.7) + 400 );
   
   render.bounds.min.x += (targetMin.x - render.bounds.min.x) * easeAmount;
   render.bounds.min.y += (targetMin.y - render.bounds.min.y) * easeAmount;
