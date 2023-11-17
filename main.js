@@ -21,11 +21,15 @@ var render = Render.create({
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     wireframes: false,
     showDebug: true,
     showVelocity: true,
 
     
+=======
+    showVelocties: true 
+>>>>>>> parent of 5eb75cf (Development 0.01.06 ( Colors and Debug ))
 =======
     showVelocties: true 
 >>>>>>> parent of 5eb75cf (Development 0.01.06 ( Colors and Debug ))
