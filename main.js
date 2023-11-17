@@ -10,7 +10,6 @@ var Engine = Matter.Engine,
 
 // create engine  
 var engine = Engine.create();
-
 // create renderer
 var render = Render.create({
   element: document.body,
@@ -20,6 +19,7 @@ var render = Render.create({
     height: window.innerHeight,
     wireframes: false,
     showDebug: true,
+    background: '#303030' // color name or hex code
 
     
   },
@@ -79,6 +79,7 @@ const player = Body.create({
 // wall contact jumping  
 let touchingWall = false;
 
+
 // Level class with hitboxes
 class Level {
 
@@ -86,44 +87,67 @@ class Level {
     this.walls = [];
   }
 
-  addWall(x, y, width, height) {
+  addWall(x, y, width, height, options) {
 
-    // Add wall
+    // Default options
+    const defaultOptions = {
+      isStatic: true,
+      label: 'wall',
+      color: '#c2c2c2' 
+    };
+
+    // Merge passed in options with defaults
+    const wallOptions = {...defaultOptions, ...options};
+
+    // Add wall with options
     this.walls.push({
-      x: x,  
+      x: x, 
       y: y,
       width: width,
-      height: height,
-      isStatic: true,
-      label: 'wall'
+      height: height, 
+      ...wallOptions
     });
-
 
   }
 
   addToWorld(world) {
-    var bodies = this.walls.map(wall => {
+    
+    // Create wall bodies
+    const bodies = this.walls.map(wall => {
       return Bodies.rectangle(wall.x, wall.y, wall.width, wall.height, {
         isStatic: wall.isStatic,
-        label: wall.label
+        label: wall.label,
+        render: {
+          fillStyle: wall.color
+        }
       });
     });
     
-    
+    // Add to world
     World.add(world, bodies);
+
   }
 
 }
-  
+
+// Usage:
+
+const level = new Level();
+
+level.addWall(0, 0, 100, 100, {color: 'blue'}); 
+level.addWall(100, 0, 100, 100, {isStatic: false});
 
 // create level  
 var level1 = new Level();
 
 
-level1.addWall(0, 0, 1000, 60);
+level1.addWall(0, 0, 1000, 60, {color: 'blue'});
 level1.addWall(-500,-220,100,500)
-level1.addWall(450,-250,100,250)
-level1.addWall(300,-150,300,50)
+level1.addWall(450,-350,100,250)
+level1.addWall(300,-250,300,50)
+level1.addWall(-400,-150,150,50)
+level1.addWall(0,-250,100,50)
+
 
 
 // add bodies to world 
