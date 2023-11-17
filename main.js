@@ -18,7 +18,10 @@ var render = Render.create({
   options: {
     width: window.innerWidth,
     height: window.innerHeight,
-    showVelocties: true 
+    wireframes: false,
+    showDebug: true,
+
+    
   },
   
   
@@ -35,9 +38,16 @@ const hitboxHeight = 10;
 
 const player = Body.create({
   parts: [
-    Bodies.rectangle(0, -500, playerWidth, playerHeight ),
+    Bodies.rectangle(0, -500, playerWidth, playerHeight ,{
+      render: {
+        fillStyle: 'white',
+        strokeStyle: 'blue',
+        lineWidth: 3
+   }
+    }),
     Bodies.rectangle(0, -460, hitboxWidth, hitboxHeight, {label: 'foot'}), // thanks to landgreen for helping with this
-    Bodies.polygon(0, -500, 3, 10, { label: 'eye',   angle: 0 })
+    Bodies.polygon(0, -500, 3, 10, { label: 'eye',   angle: Math.PI}),
+    Bodies.rectangle(20,-500,25,1)
   ],
   
   frictionAir: 0.02,
