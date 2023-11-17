@@ -41,13 +41,30 @@ const player = Body.create({
     Bodies.rectangle(0, -500, playerWidth, playerHeight ,{
       render: {
         fillStyle: 'white',
-        strokeStyle: 'blue',
-        lineWidth: 3
+        strokeStyle: 'grey',
+        lineWidth: 8
    }
     }),
-    Bodies.rectangle(0, -460, hitboxWidth, hitboxHeight, {label: 'foot'}), // thanks to landgreen for helping with this
-    Bodies.polygon(0, -500, 3, 10, { label: 'eye',   angle: Math.PI}),
-    Bodies.rectangle(20,-500,25,1)
+    Bodies.rectangle(0, -450, hitboxWidth, hitboxHeight, {label: 'foot',
+    render:{
+      fillStyle: '#212121',
+
+    }
+  }), // thanks to landgreen for helping with this
+    Bodies.polygon(0, -500, 3, 10, { label: 'eye',   angle: Math.PI,
+    render:{
+      fillStyle: 'white',
+      strokeStyle: 'grey',
+      lineWidth: 8,
+    }
+  }),
+    Bodies.rectangle(24,-500,28,1,{ label: 'mouth',
+      render:{
+        fillStyle: 'grey',
+        strokeStyle: 'grey',
+        lineWidth: 4,
+      }
+    })
   ],
   
   frictionAir: 0.02,
@@ -121,21 +138,22 @@ Render.run(render);
 
 // ███████████████████████████████████ COLLISION ████████████████████████████████████████
 
+
+
 Matter.Events.on(engine, 'collisionStart', function(event) {
-  var pairs = event.pairs;
- 
-  for (var i = 0; i < pairs.length; i++) {
-      var pair = pairs[i];
- 
-      if (pair.bodyA.label === 'foot' && pair.bodyB.label === 'wall' || pair.bodyA.label === 'wall' && pair.bodyB.label === 'foot')  { // checks if player is colliding with the ground
-        touchingWall = true;
-      }
-  }
+
+  event.pairs.forEach(pair => {
+    if (pair.bodyA.label === 'foot' || pair.bodyB.label === 'foot') {
+      touchingWall = true;
+    }  
+  });
+
 });
 
-Matter.Events.on(engine, 'collisionEnd', function() {
-  touchingWall = false; 
+Matter.Events.on(engine, 'collisionEnd', function(event) {
+  touchingWall = false;
 });
+
 
 // create mouse
 var mouse = Mouse.create(render.canvas);
