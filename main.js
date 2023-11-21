@@ -48,6 +48,8 @@ const player = Body.create({
     Bodies.rectangle(0, -450, hitboxWidth, hitboxHeight, {label: 'foot',
     render:{
       fillStyle: '#212121',
+        frictionAir: 0.5
+
 
     }
   }), // thanks to landgreen for helping with this
@@ -56,6 +58,8 @@ const player = Body.create({
       fillStyle: 'white',
       strokeStyle: 'grey',
       lineWidth: 8,
+      frictionAir: 0.5
+
     }
   }),
     Bodies.rectangle(24,-500,28,1,{ label: 'mouth',
@@ -63,6 +67,8 @@ const player = Body.create({
         fillStyle: 'grey',
         strokeStyle: 'grey',
         lineWidth: 4,
+        frictionAir: 0.5
+
       }
     })
   ],
@@ -74,7 +80,38 @@ const player = Body.create({
 
 
 
+
+
 // ███████████████████████████████████ WALLS ████████████████████████████████████████
+
+class Box {
+
+  constructor(world, x, y, width, height, options) {
+    
+    this.defaultOptions = {
+      label: 'body'
+      // other defaults
+    };
+
+    this.body = Bodies.rectangle(x, y, width, height, {
+      ...this.defaultOptions,
+      ...options
+    });
+    
+
+    World.add(world, this.body); 
+
+  }
+
+  removeFromWorld(world) {
+    World.remove(world, this.body); 
+  }
+
+}
+
+// Usage:
+
+
 
 // wall contact jumping  
 let touchingWall = false;
@@ -141,7 +178,7 @@ level.addWall(100, 0, 100, 100, {isStatic: false});
 var level1 = new Level();
 
 
-level1.addWall(0, 0, 1000, 60, {color: 'blue'});
+level1.addWall(500, 0, 2000, 60, {color: 'blue'});
 level1.addWall(-500,-220,100,500)
 level1.addWall(450,-350,100,250)
 level1.addWall(300,-250,300,50)
@@ -160,6 +197,28 @@ Engine.run(engine);
 // run renderer  
 Render.run(render);
 
+function addCubes(world) {
+
+  const numCubes = 20;
+  
+  for (let i = 0; i < numCubes; i++) {
+
+
+
+    // Create cube 
+    const cube = new Box(
+      world, 
+      500, -600, 50, 50, 
+      {friction: 0.01, restitution: 0.6} 
+    );
+
+  }
+
+}
+
+// Usage 
+
+addCubes(engine.world);
 // ███████████████████████████████████ COLLISION ████████████████████████████████████████
 
 
@@ -168,8 +227,8 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
 
   event.pairs.forEach(pair => {
     if (pair.bodyA.label === 'foot' || pair.bodyB.label === 'foot') {
-      touchingWall = true;
-    }  
+      touchingWall = true; 
+    }
   });
 
 });

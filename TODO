@@ -1,7 +1,7 @@
 1. Fix player box so it does not rotate.
 2. Create separate files to manage level, player, and main (main incorparates level and player file).
 3. Find out why .keyCode is deprecated and fix it.
-
+4. fix bug with collison detecton ( player cant jump )
 Running:
 
 This is just for me so i can run a html preview on stackblitz.
