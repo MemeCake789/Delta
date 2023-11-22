@@ -33,6 +33,9 @@ const playerWidth = 80;
 const playerHeight = 80;
 const hitboxWidth = playerWidth * 0.8; 
 const hitboxHeight = 10;
+let isJumping = false;
+
+
 
 
 
@@ -43,43 +46,20 @@ const player = Body.create({
         fillStyle: 'white',
         strokeStyle: 'grey',
         lineWidth: 8
-   }
-    }),
-    Bodies.rectangle(0, -450, hitboxWidth, hitboxHeight, {label: 'foot',
-    render:{
-      fillStyle: '#212121',
-        frictionAir: 0.5
-
-
-    }
-  }), // thanks to landgreen for helping with this
-    Bodies.polygon(0, -500, 3, 10, { label: 'eye',   angle: Math.PI,
-    render:{
-      fillStyle: 'white',
-      strokeStyle: 'grey',
-      lineWidth: 8,
-      frictionAir: 0.5
-
-    }
-  }),
-    Bodies.rectangle(24,-500,28,1,{ label: 'mouth',
-      render:{
-        fillStyle: 'grey',
-        strokeStyle: 'grey',
-        lineWidth: 4,
-        frictionAir: 0.5
-
       }
-    })
+    }),
+    Bodies.rectangle(0, -450, 40, 20, {
+      sleepThreshold: Infinity,
+      isSensor: true,
+      label: 'foot'
+    }), // thanks to landgreen for helping with this
+    // other parts...
   ],
-  
   frictionAir: 0.02,
   inertia: Infinity, // stop rotation
   label: 'player'
-});
-
-
-
+ });
+ 
 
 
 // ███████████████████████████████████ WALLS ████████████████████████████████████████
@@ -221,21 +201,21 @@ function addCubes(world) {
 addCubes(engine.world);
 // ███████████████████████████████████ COLLISION ████████████████████████████████████████
 
+// checks if the amount of things colliding with the foot is = to 1
 
+function isFootInContact() {
+  const footSensor = player.parts.find(part => part.label === 'foot');
+  const bodies = engine.world.bodies;
+  const collisions = Matter.Query.collides(footSensor, bodies);
+  if (collisions.length === 1) { // collisions.length will never be less than one due to the foot always colliding with its self ( idk why )
+    return false;
+  } else {
+    return true;
+  }
+ }
+ 
+ 
 
-Matter.Events.on(engine, 'collisionStart', function(event) {
-
-  event.pairs.forEach(pair => {
-    if (pair.bodyA.label === 'foot' || pair.bodyB.label === 'foot') {
-      touchingWall = true; 
-    }
-  });
-
-});
-
-Matter.Events.on(engine, 'collisionEnd', function(event) {
-  touchingWall = false;
-});
 
 
 // create mouse
@@ -317,15 +297,14 @@ function gameLoop() {
     Body.setVelocity(player, {x: 5, y: player.velocity.y});
   }
   
-  // jump only if touching wall
-  if ((keys[38] || keys[87])) {
-    if (touchingWall) {
-      Body.applyForce(player, player.position, {x: 0, y: -0.3});
-    }
+  // jump only if in contact with body
+  if ((keys[38] || keys[87]) && isFootInContact() && !isJumping) {
+    Body.applyForce(player, player.position, {x: 0, y: -0.3});
+    isJumping = true;
   }
+  console.log(Matter.Query.collides(player.parts[2], engine.world.bodies).length)
 
-  
- 
+  //console.log(isFootInContact())
  
 // Set level minimum y value 
 const LEVEL_MIN_Y = 1000;
@@ -335,6 +314,9 @@ const LEVEL_MIN_Y = 1000;
 
 // Check player position each engine update
 Matter.Events.on(engine, 'afterUpdate', function() {
+  if (player.velocity.y > 0 && isFootInContact()) {
+    isJumping = false;
+   }
 
   if (player.position.y > LEVEL_MIN_Y) {
     // Player is below level minimum, move back up

@@ -1,12 +1,3 @@
-1. Fix player box so it does not rotate.
-2. Create separate files to manage level, player, and main (main incorparates level and player file).
-3. Find out why .keyCode is deprecated and fix it.
-4. fix bug with collison detecton ( player cant jump )
-Running:
+1. Create separate files to manage level, player, and main (main incorparates level and player file).
+2. Create newer player model
 
-This is just for me so i can run a html preview on stackblitz.
-
-npm config set prefix ~/npm
-npm install -g http-server
-npm install -g nodemon
-~/npm/bin/http-server
