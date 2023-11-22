@@ -6,6 +6,11 @@ DeltΔ, a javascript platformer made with matter.js
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.13] - Foot Sensor Change 
+
+### ↻ Changed
+- Changed the size of the foot sensor
+
 ## [0.1.12] - Better Jumping 
 
 ### ↻ Changed

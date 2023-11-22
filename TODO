@@ -1,3 +1,4 @@
 1. Create separate files to manage level, player, and main (main incorparates level and player file).
 2. Create newer player model
+3. stop player from sliding down walls
 

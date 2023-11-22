@@ -48,7 +48,7 @@ const player = Body.create({
         lineWidth: 8
       }
     }),
-    Bodies.rectangle(0, -450, 40, 20, {
+    Bodies.rectangle(0, -450, playerWidth*0.7, 20, {
       sleepThreshold: Infinity,
       isSensor: true,
       label: 'foot'
