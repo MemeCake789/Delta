@@ -6,6 +6,15 @@ DeltΔ, a javascript platformer made with matter.js
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.14] - Better File Organiztion 
+
+### ↻ Changed
+- Moved code into player.js and level.js for clearer code
+
+### + Added
+- Imported anime.js ( usage later for player animations )
+
+
 ## [0.1.13] - Foot Sensor Change 
 
 ### ↻ Changed

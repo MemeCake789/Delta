@@ -1,4 +1,5 @@
-// ███████████████████████████████████ SETUP ████████████████████████████████████████
+import { player, isFootInContact } from './src/player.js';
+import { Level } from './src/level.js';
 
 var Engine = Matter.Engine,
     Render = Matter.Render,
@@ -7,10 +8,7 @@ var Engine = Matter.Engine,
     Body = Matter.Body,
     Mouse = Matter.Mouse;
 
-
-// create engine  
 var engine = Engine.create();
-// create renderer
 var render = Render.create({
   element: document.body,
   engine: engine, 
@@ -19,226 +17,86 @@ var render = Render.create({
     height: window.innerHeight,
     wireframes: false,
     showDebug: true,
-    background: '#303030' // color name or hex code
-
-    
+    background: '#303030'
   },
-  
-  
 });
 
 var easeAmount = 0.05;
-// Player
-const playerWidth = 80;
-const playerHeight = 80;
-const hitboxWidth = playerWidth * 0.8; 
-const hitboxHeight = 10;
-let isJumping = false;
 
+World.add(engine.world, [player]);
 
-
-
-
-const player = Body.create({
-  parts: [
-    Bodies.rectangle(0, -500, playerWidth, playerHeight ,{
-      render: {
-        fillStyle: 'white',
-        strokeStyle: 'grey',
-        lineWidth: 8
-      }
-    }),
-    Bodies.rectangle(0, -450, playerWidth*0.7, 20, {
-      sleepThreshold: Infinity,
-      isSensor: true,
-      label: 'foot'
-    }), // thanks to landgreen for helping with this
-    // other parts...
-  ],
-  frictionAir: 0.02,
-  inertia: Infinity, // stop rotation
-  label: 'player'
- });
- 
-
-
-// ███████████████████████████████████ WALLS ████████████████████████████████████████
-
-class Box {
-
-  constructor(world, x, y, width, height, options) {
-    
-    this.defaultOptions = {
-      label: 'body'
-      // other defaults
-    };
-
-    this.body = Bodies.rectangle(x, y, width, height, {
-      ...this.defaultOptions,
-      ...options
-    });
-    
-
-    World.add(world, this.body); 
-
-  }
-
-  removeFromWorld(world) {
-    World.remove(world, this.body); 
-  }
-
-}
-
-// Usage:
-
-
-
-// wall contact jumping  
-let touchingWall = false;
-
-
-// Level class with hitboxes
-class Level {
-
-  constructor() {
-    this.walls = [];
-  }
-
-  addWall(x, y, width, height, options) {
-
-    // Default options
-    const defaultOptions = {
-      isStatic: true,
-      label: 'wall',
-      color: '#c2c2c2' 
-    };
-
-    // Merge passed in options with defaults
-    const wallOptions = {...defaultOptions, ...options};
-
-    // Add wall with options
-    this.walls.push({
-      x: x, 
-      y: y,
-      width: width,
-      height: height, 
-      ...wallOptions
-    });
-
-  }
-
-  addToWorld(world) {
-    
-    // Create wall bodies
-    const bodies = this.walls.map(wall => {
-      return Bodies.rectangle(wall.x, wall.y, wall.width, wall.height, {
-        isStatic: wall.isStatic,
-        label: wall.label,
-        render: {
-          fillStyle: wall.color
-        }
-      });
-    });
-    
-    // Add to world
-    World.add(world, bodies);
-
-  }
-
-}
-
-// Usage:
-
-const level = new Level();
-
-level.addWall(0, 0, 100, 100, {color: 'blue'}); 
-level.addWall(100, 0, 100, 100, {isStatic: false});
-
-// create level  
 var level1 = new Level();
-
-
 level1.addWall(500, 0, 2000, 60, {color: 'blue'});
 level1.addWall(-500,-220,100,500)
 level1.addWall(450,-350,100,250)
 level1.addWall(300,-250,300,50)
 level1.addWall(-400,-150,150,50)
 level1.addWall(0,-250,100,50)
-
-
-
-// add bodies to world 
-World.add(engine.world, [player]);
 level1.addToWorld(engine.world);
 
-// run engine
 Engine.run(engine); 
-
-// run renderer  
 Render.run(render);
 
-function addCubes(world) {
-
-  const numCubes = 20;
-  
-  for (let i = 0; i < numCubes; i++) {
-
-
-
-    // Create cube 
-    const cube = new Box(
-      world, 
-      500, -600, 50, 50, 
-      {friction: 0.01, restitution: 0.6} 
-    );
-
-  }
-
-}
-
-// Usage 
-
-addCubes(engine.world);
-// ███████████████████████████████████ COLLISION ████████████████████████████████████████
-
-// checks if the amount of things colliding with the foot is = to 1
-
-function isFootInContact() {
-  const footSensor = player.parts.find(part => part.label === 'foot');
-  const bodies = engine.world.bodies;
-  const collisions = Matter.Query.collides(footSensor, bodies);
-  if (collisions.length === 1) { // collisions.length will never be less than one due to the foot always colliding with its self ( idk why )
-    return false;
-  } else {
-    return true;
-  }
- }
- 
- 
-
-
-
-// create mouse
 var mouse = Mouse.create(render.canvas);
-
-// target positions 
 var targetMin = { x: player.position.x - 500, y: player.position.y - 200 };
 var targetMax = { x: player.position.x + 500, y: player.position.y + 200 };
 
-// set camera
 Render.lookAt(render, {
     min: targetMin,
     max: targetMax
 });
 
-let I = 4
+let keys = {
+  37: false, // left
+  39: false, // right
+  38: false, // up
+  87: false, // W  
+  65: false, // A
+  83: false, // S
+  68: false  // D
+};
 
-// ███████████████████████████████████ SIDE SCROLLING ████████████████████████████████████████
+window.addEventListener('keydown', function(e) {
+  if (e.keyCode in keys) {
+    keys[e.keyCode] = true;
+  }  
+});
 
+window.addEventListener('keyup', function(e) {
+  if (e.keyCode in keys) {
+    keys[e.keyCode] = false;
+  }
+});
+
+function gameLoop() {
+  if (keys[37] || keys[65]) { 
+    Body.setVelocity(player, {x: -5, y: player.velocity.y});
+  }
+  
+  if (keys[39] || keys[68]) {
+    Body.setVelocity(player, {x: 5, y: player.velocity.y});
+  }
+  
+  if ((keys[38] || keys[87]) && isFootInContact(engine) && !isJumping) {
+    Body.applyForce(player, player.position, {x: 0, y: -0.3});
+    isJumping = true;
+  }
+
+  const LEVEL_MIN_Y = 1000;
+
+  if (player.position.y > LEVEL_MIN_Y) {
+    Body.setPosition(player, {
+      x: -100,
+      y: -1000
+    });
+  }
+
+  requestAnimationFrame(gameLoop);
+}
+
+gameLoop();
 
 Matter.Events.on(engine, 'afterUpdate', function() {
-  // Huge math to get the camera to follow the mouse and player ( with easing )
-  
   targetMin.x = player.position.x + ( (mouse.position.x / 5) - 500 ); 
   targetMin.y = player.position.y + ( (mouse.position.y / 4) - 500 );
 
@@ -254,86 +112,8 @@ Matter.Events.on(engine, 'afterUpdate', function() {
     min: render.bounds.min, 
     max: render.bounds.max
   });
-});
 
-
-// ███████████████████████████████████ MOVEMENT ████████████████████████████████████████
-
-// input keys
-let keys = {
-  37: false, // left
-  39: false, // right
-  38: false, // up
-  87: false, // W  
-  65: false, // A
-  83: false, // S
-  68: false  // D
-};
-
-// key handlers
-window.addEventListener('keydown', function(e) {
-  if (e.keyCode in keys) {
-    keys[e.keyCode] = true;
-  }  
-});
-
-window.addEventListener('keyup', function(e) {
-  if (e.keyCode in keys) {
-    keys[e.keyCode] = false;
-  }
-});
-
-
-
-// game loop
-function gameLoop() {
-
-  // left/right movement
-  if (keys[37] || keys[65]) { 
-    Body.setVelocity(player, {x: -5, y: player.velocity.y});
-  }
-  
-  if (keys[39] || keys[68]) {
-    Body.setVelocity(player, {x: 5, y: player.velocity.y});
-  }
-  
-  // jump only if in contact with body
-  if ((keys[38] || keys[87]) && isFootInContact() && !isJumping) {
-    Body.applyForce(player, player.position, {x: 0, y: -0.3});
-    isJumping = true;
-  }
-  console.log(Matter.Query.collides(player.parts[2], engine.world.bodies).length)
-
-  //console.log(isFootInContact())
- 
-// Set level minimum y value 
-const LEVEL_MIN_Y = 1000;
-
-
-// ███████████████████████████████████ GAME LOOP ████████████████████████████████████████
-
-// Check player position each engine update
-Matter.Events.on(engine, 'afterUpdate', function() {
-  if (player.velocity.y > 0 && isFootInContact()) {
+  if (player.velocity.y > 0 && isFootInContact(engine)) {
     isJumping = false;
-   }
-
-  if (player.position.y > LEVEL_MIN_Y) {
-    // Player is below level minimum, move back up
-
-    Body.setPosition(player, {
-      x: -100,
-      y: -1000
-    });
-
-
   }
- 
-
 });
-  requestAnimationFrame(gameLoop);
-}
-
-gameLoop();
-
-
