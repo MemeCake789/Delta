@@ -6,6 +6,11 @@ DeltΔ, a javascript platformer made with matter.js
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.15] - File Fix
+
+### 🔧 Fixed
+- Fixed a bug with files not imporitng properly
+
 ## [0.1.14] - Better File Organiztion 
 
 ### ↻ Changed

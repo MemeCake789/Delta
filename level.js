@@ -3,7 +3,7 @@ var Bodies = Matter.Bodies,
 
 class Level {
   constructor() {
-    this.walls = [];
+    this.walls = [];//
   }
 
   addWall(x, y, width, height, options) {

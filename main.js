@@ -1,5 +1,6 @@
-import { player, isFootInContact } from './src/player.js';
-import { Level } from './src/level.js';
+import { player, isFootInContact} from './player.js';
+import { Level } from './level.js';
+let isJumping = false;
 
 var Engine = Matter.Engine,
     Render = Matter.Render,
@@ -34,7 +35,7 @@ level1.addWall(-400,-150,150,50)
 level1.addWall(0,-250,100,50)
 level1.addToWorld(engine.world);
 
-Engine.run(engine); 
+Matter.Runner.run(engine)
 Render.run(render);
 
 var mouse = Mouse.create(render.canvas);

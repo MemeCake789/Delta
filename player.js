@@ -39,4 +39,5 @@ function isFootInContact(engine) {
   }
 }
 
-export { player, isFootInContact };
+ export { player , isFootInContact};
+ 
