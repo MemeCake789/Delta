@@ -1,43 +1,48 @@
-var Body = Matter.Body,
+var Engine = Matter.Engine,
+    Render = Matter.Render,
+    World = Matter.World,  
     Bodies = Matter.Bodies,
-    World = Matter.World;
+    Body = Matter.Body,
+    Mouse = Matter.Mouse;
 
-const playerWidth = 80;
-const playerHeight = 80;
-const hitboxWidth = playerWidth * 0.8; 
-const hitboxHeight = 10;
-let isJumping = false;
+class Player {
+  constructor() {
+    this.width = 80;
+    this.height = 80;
+    this.isJumping = false;
 
-const player = Body.create({
-  parts: [
-    Bodies.rectangle(0, -500, playerWidth, playerHeight ,{
-      render: {
-        fillStyle: 'white',
-        strokeStyle: 'grey',
-        lineWidth: 8
-      }
-    }),
-    Bodies.rectangle(0, -450, playerWidth*0.7, 20, {
-      sleepThreshold: Infinity,
-      isSensor: true,
-      label: 'foot'
-    }),
-  ],
-  frictionAir: 0.02,
-  inertia: Infinity,
-  label: 'player'
-});
+    const bodyOptions = {
+      parts: [
+        Bodies.rectangle(0, -500, this.width, this.height, {
+          render: {
+            fillStyle: 'white',
+            strokeStyle: 'grey',
+            lineWidth: 8
+          }
+        }),
+        Bodies.rectangle(0, -450, this.width * 0.7, 20, {
+          sleepThreshold: Infinity,
+          isSensor: true,
+          label: 'foot'
+        })
+      ],
+      frictionAir: 0.02,
+      inertia: Infinity,
+      label: 'player'
+    };
 
-function isFootInContact(engine) {
-  const footSensor = player.parts.find(part => part.label === 'foot');
-  const bodies = engine.world.bodies;
-  const collisions = Matter.Query.collides(footSensor, bodies);
-  if (collisions.length === 1) {
-    return false;
-  } else {
-    return true;
+    this.body = Body.create(bodyOptions);
+  }
+
+  isFootInContact(engine) { // Move the function inside the class
+    const footSensor = this.body.parts.find(part => part.label === 'foot');
+    const bodies = engine.world.bodies;
+    const collisions = Matter.Query.collides(footSensor, bodies);
+
+    const isFootInContact = collisions.length === 1;
+
+    return isFootInContact;
   }
 }
 
- export { player , isFootInContact};
- 
+export default Player;

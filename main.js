@@ -1,5 +1,7 @@
-import { player, isFootInContact} from './player.js';
+// main.js
+import Player from './player.js';
 import { Level } from './level.js';
+
 let isJumping = false;
 
 var Engine = Matter.Engine,
@@ -23,8 +25,10 @@ var render = Render.create({
 });
 
 var easeAmount = 0.05;
+const player = new Player();
 
-World.add(engine.world, [player]);
+
+World.add(engine.world, [player.body]); // Replace player with player.body
 
 var level1 = new Level();
 level1.addWall(500, 0, 2000, 60, {color: 'blue'});
@@ -39,8 +43,8 @@ Matter.Runner.run(engine)
 Render.run(render);
 
 var mouse = Mouse.create(render.canvas);
-var targetMin = { x: player.position.x - 500, y: player.position.y - 200 };
-var targetMax = { x: player.position.x + 500, y: player.position.y + 200 };
+var targetMin = { x: player.body.position.x - 500, y: player.body.position.y - 200 };
+var targetMax = { x: player.body.position.x + 500, y: player.body.position.y + 200 };
 
 Render.lookAt(render, {
     min: targetMin,
@@ -70,23 +74,25 @@ window.addEventListener('keyup', function(e) {
 });
 
 function gameLoop() {
+
+  
   if (keys[37] || keys[65]) { 
-    Body.setVelocity(player, {x: -5, y: player.velocity.y});
+    Body.setVelocity(player.body, {x: -5, y: player.body.velocity.y});
   }
   
   if (keys[39] || keys[68]) {
-    Body.setVelocity(player, {x: 5, y: player.velocity.y});
+    Body.setVelocity(player.body, {x: 5, y: player.body.velocity.y});
   }
   
-  if ((keys[38] || keys[87]) && isFootInContact(engine) && !isJumping) {
-    Body.applyForce(player, player.position, {x: 0, y: -0.3});
+  if ((keys[38] || keys[87]) && !player.isFootInContact(engine) && !isJumping) {
+    Body.applyForce(player.body, player.body.position, {x: 0, y: -0.3});
     isJumping = true;
   }
 
   const LEVEL_MIN_Y = 1000;
 
-  if (player.position.y > LEVEL_MIN_Y) {
-    Body.setPosition(player, {
+  if (player.body.position.y > LEVEL_MIN_Y) {
+    Body.setPosition(player.body, {
       x: -100,
       y: -1000
     });
@@ -98,11 +104,11 @@ function gameLoop() {
 gameLoop();
 
 Matter.Events.on(engine, 'afterUpdate', function() {
-  targetMin.x = player.position.x + ( (mouse.position.x / 5) - 500 ); 
-  targetMin.y = player.position.y + ( (mouse.position.y / 4) - 500 );
+  targetMin.x = player.body.position.x + ( (mouse.position.x / 5) - 500 ); 
+  targetMin.y = player.body.position.y + ( (mouse.position.y / 6) - 200 );
 
-  targetMax.x = player.position.x + ( (mouse.position.x *0.7) + 400 );
-  targetMax.y = player.position.y + ( (mouse.position.y *0.7) + 400 );
+  targetMax.x = player.body.position.x + ( (mouse.position.x *0.3) + 400 );
+  targetMax.y = player.body.position.y + ( (mouse.position.y *0.3) + 400 );
   
   render.bounds.min.x += (targetMin.x - render.bounds.min.x) * easeAmount;
   render.bounds.min.y += (targetMin.y - render.bounds.min.y) * easeAmount;
@@ -114,7 +120,8 @@ Matter.Events.on(engine, 'afterUpdate', function() {
     max: render.bounds.max
   });
 
-  if (player.velocity.y > 0 && isFootInContact(engine)) {
+  if (player.body.velocity.y > 0 && player.isFootInContact(engine)) {
     isJumping = false;
   }
 });
+
