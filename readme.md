@@ -1,8 +1,3 @@
-# UPDATE!
-
-### I have decided to take some time to reconsider my game idea. Although I have already built a solid framework for the game, I want to plan ahead for more ideas. For instance, I am considering using a JavaScript library called Phaser, which is specifically designed for developing JavaScript games and works well with Matter.js.
-
-### I will be working on this project in a private repository and should have a new version ready in the near future.
 # DeltΔ
 DeltΔ, a javascript platformer made with matter.js
 
@@ -10,6 +5,11 @@ DeltΔ, a javascript platformer made with matter.js
 # Changelog
 
 All notable changes to this project will be documented in this file.
+
+## [0.2.0.01] -  Intital Fix
+
+### ↻ Changed
+- Working on fixing some code
 
 ## [0.1.16] - Player Class
 

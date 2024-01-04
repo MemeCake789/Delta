@@ -30,14 +30,18 @@ const player = new Player();
 
 World.add(engine.world, [player.body]); // Replace player with player.body
 
-var level1 = new Level();
-level1.addWall(500, 0, 2000, 60, {color: 'blue'});
-level1.addWall(-500,-220,100,500)
-level1.addWall(450,-350,100,250)
-level1.addWall(300,-250,300,50)
-level1.addWall(-400,-150,150,50)
-level1.addWall(0,-250,100,50)
-level1.addToWorld(engine.world);
+const demoWalls = [
+  {x: 500, y: 0, width: 2000, height: 60, color: 'blue'},
+  {x: -500, y:-220, width: 100, height: 500}, 
+  {x: 450, y:-350, width: 100, height: 250},
+  {x: 300, y:-250, width: 300, height: 50},
+  {x: -400, y:-150, width: 150, height: 50},
+  {x: 0, y:-250, width: 100, height: 50}
+];
+
+const demo = new Level(demoWalls);
+
+demo.startLevel(); 
 
 Matter.Runner.run(engine)
 Render.run(render);
