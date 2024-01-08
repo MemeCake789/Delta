@@ -6,6 +6,11 @@ DeltΔ, a javascript platformer made with matter.js
 
 All notable changes to this project will be documented in this file.
 
+## [0.2.1] -  Better Level Class
+
+### ↻ Changed
+- Made the Level class better to use.
+
 ## [0.2.0.01] -  Intital Fix
 
 ### ↻ Changed

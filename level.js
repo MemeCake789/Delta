@@ -1,31 +1,14 @@
-const Engine = Matter.Engine,
-      World = Matter.World,
-      Bodies = Matter.Bodies;
+import Matter from "matter-js";
 
+var Bodies = Matter.Bodies,
+    World = Matter.World;
 
 class Level {
-  constructor() {
-    this.walls = [];
+  constructor(wallData) {
+    this.walls = wallData;
   }
 
-  addWall(x, y, width, height, options) {
-    const defaultOptions = {
-      isStatic: true,
-      label: 'wall',
-      color: '#c2c2c2' 
-    };
-    const wallOptions = {...defaultOptions, ...options};
-    this.walls.push({
-      x: x, 
-      y: y,
-      width: width,
-      height: height, 
-      ...wallOptions
-    });
-
-  }
-
-  startLevel(world) {
+  start(world) {
     const bodies = this.walls.map(wall => {
       return Bodies.rectangle(wall.x, wall.y, wall.width, wall.height, {
         isStatic: wall.isStatic,
@@ -36,8 +19,12 @@ class Level {
       });
     });
 
-    console.log(bodies)
     World.add(world, bodies);
+
+  }
+
+  end(world) {
+    Matter.Composite.clear(world)
   }
 }
 

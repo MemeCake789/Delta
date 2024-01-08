@@ -1,3 +1,4 @@
+// main.js
 import Player from './player.js';
 import { Level } from './level.js';
 
@@ -28,15 +29,18 @@ const player = new Player();
 
 
 World.add(engine.world, [player.body]); // Replace player with player.body
+const demoWalls = [
+  {"x":500,  "y":0,     "width":2000,  "height":60,   "isStatic":true,   "label":"wall",  "color":"blue"},
+  {"x":-500, "y":-220,  "width":100,   "height":500,  "isStatic":true,   "label":"wall",  "color":"#c2c2c2"},
+  {"x":450,  "y":-350,  "width":100,   "height":250,  "isStatic":true,   "label":"wall",  "color":"#c2c2c2"},
+  {"x":300,  "y":-250,  "width":300,   "height":50,   "isStatic":true,   "label":"wall",  "color":"#c2c2c2"},
+  {"x":-400, "y":-150,  "width":150,   "height":50,   "isStatic":true,   "label":"wall",  "color":"#c2c2c2"},
+  {"x":0,    "y":-250,  "width":100,   "height":50,   "isStatic":true,   "label":"wall",  "color":"#c2c2c2"},
+  {"x":0,    "y":-250,  "width":50,   "height":50,   "isStatic":false,  "label":"wall",  "color":"orange"}]
 
-var level1 = new Level();
-level1.addWall(500, 0, 2000, 60, {color: 'blue'});
-level1.addWall(-500,-220,100,500)
-level1.addWall(450,-350,100,250)
-level1.addWall(300,-250,300,50)
-level1.addWall(-400,-150,150,50)
-level1.addWall(0,-250,100,50)
-level1.startLevel(engine.world);
+  var demo = new Level(demoWalls);
+
+demo.start(engine.world);
 
 Matter.Runner.run(engine)
 Render.run(render);
@@ -61,20 +65,20 @@ let keys = {
 };
 
 window.addEventListener('keydown', function(e) {
-  if (e.keyCode in keys) {
-    keys[e.keyCode] = true;
+  if (e.key in keys) {
+    keys[e.key] = true;
   }  
 });
 
 window.addEventListener('keyup', function(e) {
-  if (e.keyCode in keys) {
-    keys[e.keyCode] = false;
+  if (e.key in keys) {
+    keys[e.key] = false;
   }
 });
 
-function gameLoop() {
 
-  
+
+Matter.Events.on(engine, 'afterUpdate', function() {
   if (keys[37] || keys[65]) { 
     Body.setVelocity(player.body, {x: -5, y: player.body.velocity.y});
   }
@@ -97,12 +101,6 @@ function gameLoop() {
     });
   }
 
-  requestAnimationFrame(gameLoop);
-}
-
-gameLoop();
-
-Matter.Events.on(engine, 'afterUpdate', function() {
   targetMin.x = player.body.position.x + ( (mouse.position.x / 5) - 500 ); 
   targetMin.y = player.body.position.y + ( (mouse.position.y / 6) - 200 );
 
@@ -123,4 +121,3 @@ Matter.Events.on(engine, 'afterUpdate', function() {
     isJumping = false;
   }
 });
-
