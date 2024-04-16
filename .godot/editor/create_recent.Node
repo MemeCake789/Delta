@@ -1,0 +1,6 @@
+Camera2D
+ColorRect
+Control
+CollisionShape2D
+StaticBody2D
+CharacterBody2D
