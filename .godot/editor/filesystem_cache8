@@ -1,0 +1,10 @@
+ea4bc82a6ad023ab7ee23ee620429895
+::res://::1713226940
+README.md::TextFile::-1::1713226730::0::1::::<><>::
+::res://assets/::1713226913
+icon.svg::CompressedTexture2D::9038910848848290086::1713226730::1713226941::1::::<><>::
+::res://scenes/::1713226849
+main.tscn::PackedScene::8435806694518287043::1713226849::0::1::::<><>::uid://bdyi8allsdfyv::::res://scenes/player.tscn
+player.tscn::PackedScene::2647076965362442929::1713226849::0::1::::<><>::res://src/Player.gd<>uid://d11rsnqtrv4p3::::res://assets/icon.svg
+::res://src/::1713226730
+Player.gd::GDScript::-1::1713226730::0::1::::<>CharacterBody2D<>::
