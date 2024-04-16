@@ -1,8 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://dsgmremitnucx"]
+[gd_scene load_steps=4 format=3 uid="uid://dsgmremitnucx"]
 
+[ext_resource type="Texture2D" uid="uid://dxfdi65dp8rm7" path="res://assets/proto/Dark/texture_09.png" id="1_uh6is"]
 [ext_resource type="PackedScene" uid="uid://bdyi8allsdfyv" path="res://scenes/player.tscn" id="1_yikqm"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_j4vef"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_obhlf"]
+size = Vector2(1126, 102)
 
 [node name="Main" type="Node2D"]
 
@@ -10,15 +12,19 @@
 position = Vector2(583, 641)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
-scale = Vector2(50, 1.5)
-shape = SubResource("RectangleShape2D_j4vef")
+position = Vector2(-1, 56)
+shape = SubResource("RectangleShape2D_obhlf")
 
-[node name="ColorRect" type="ColorRect" parent="Floor/CollisionShape2D"]
-offset_left = -10.0
-offset_top = -10.0
-offset_right = 10.0
-offset_bottom = 10.0
-color = Color(0.537011, 0.537011, 0.537011, 1)
+[node name="TextureRect" type="TextureRect" parent="Floor/CollisionShape2D"]
+texture_repeat = 2
+offset_left = -563.0
+offset_top = -51.0
+offset_right = 10697.0
+offset_bottom = 973.0
+scale = Vector2(0.1, 0.1)
+size_flags_horizontal = 0
+texture = ExtResource("1_uh6is")
+stretch_mode = 1
 
 [node name="Player" parent="." instance=ExtResource("1_yikqm")]
 position = Vector2(586, 557)

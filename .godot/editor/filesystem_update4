@@ -1,1 +1,3 @@
+res://scenes/player.tscn
 res://scenes/main.tscn
+res://src/Player.gd
