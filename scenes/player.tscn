@@ -8,6 +8,9 @@ size = Vector2(120, 120)
 
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_gqmup")
+jumpVelocity = -800
+acceleration = 1000.0
+deceleration = 1200.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_152bx")
