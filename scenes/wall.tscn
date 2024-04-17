@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://b02g1l6n02oqc"]
+
+[ext_resource type="Texture2D" uid="uid://dxfdi65dp8rm7" path="res://assets/proto/Dark/texture_09.png" id="1_dayec"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8evr3"]
+
+[node name="Wall" type="StaticBody2D"]
+texture_repeat = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_repeat = 2
+position = Vector2(11.5001, 0)
+texture = ExtResource("1_dayec")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2(1, 1.01233)
+shape = SubResource("RectangleShape2D_8evr3")

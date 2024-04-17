@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=3 uid="uid://bjjqli17pq4me"]
+
+[ext_resource type="Texture2D" uid="uid://cxyri6jlyuk1f" path="res://assets/proto/Red/texture_07.png" id="1_c8o2r"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xk1s2"]
+size = Vector2(20.3333, 20.3333)
+
+[node name="Cube" type="RigidBody2D"]
+disable_mode = 2
+collision_layer = 2
+collision_mask = 3
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_left = -31.0
+offset_top = -31.0
+offset_right = 993.0
+offset_bottom = 993.0
+scale = Vector2(0.06, 0.06)
+texture = ExtResource("1_c8o2r")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-5.96046e-08, 0)
+scale = Vector2(3, 3)
+shape = SubResource("RectangleShape2D_xk1s2")

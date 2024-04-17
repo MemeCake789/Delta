@@ -7,16 +7,15 @@
 size = Vector2(120, 120)
 
 [node name="Player" type="CharacterBody2D"]
+collision_mask = 3
 script = ExtResource("1_gqmup")
-jumpVelocity = -800
-acceleration = 1000.0
-deceleration = 1200.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_152bx")
 debug_color = Color(0.411765, 0.729412, 1, 0.419608)
 
 [node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(0.5, 0.5)
 position_smoothing_enabled = true
 position_smoothing_speed = 3.5
 
