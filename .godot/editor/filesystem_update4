@@ -1,5 +1,4 @@
 res://scenes/main.tscn
-res://scenes/wall.tscn
-res://src/Player.gd
+res://scenes/main.tres
+res://src/Bullet.gd
 res://README.md
-res://scenes/player.tscn

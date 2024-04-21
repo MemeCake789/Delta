@@ -1,9 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://bjjqli17pq4me"]
+[gd_scene load_steps=5 format=3 uid="uid://bjjqli17pq4me"]
 
 [ext_resource type="Texture2D" uid="uid://cxyri6jlyuk1f" path="res://assets/proto/Red/texture_07.png" id="1_c8o2r"]
+[ext_resource type="Script" path="res://src/Area2D.gd" id="2_guoep"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xk1s2"]
 size = Vector2(20.3333, 20.3333)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_gcvi2"]
+radius = 154.003
 
 [node name="Cube" type="RigidBody2D"]
 disable_mode = 2
@@ -22,3 +26,11 @@ texture = ExtResource("1_c8o2r")
 position = Vector2(-5.96046e-08, 0)
 scale = Vector2(3, 3)
 shape = SubResource("RectangleShape2D_xk1s2")
+
+[node name="Area2D" type="Area2D" parent="."]
+script = ExtResource("2_guoep")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_gcvi2")
+
+[connection signal="area_entered" from="Area2D" to="Area2D" method="_on_area_entered"]

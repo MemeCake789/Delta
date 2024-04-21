@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://o81f3x620jni"]
+
+[ext_resource type="Script" path="res://src/Gun.gd" id="1_cuqjx"]
+[ext_resource type="Texture2D" uid="uid://dt1thsdtctw74" path="res://assets/default.png" id="1_f7dx4"]
+
+[node name="GunPivot" type="Node2D"]
+script = ExtResource("1_cuqjx")
+
+[node name="Gun" type="Node2D" parent="."]
+position = Vector2(128, 0)
+
+[node name="Polygon2D" type="Polygon2D" parent="Gun"]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_f7dx4")
+texture_scale = Vector2(4, 4)
+polygon = PackedVector2Array(-64, -64, -64, 64, 0, 64, 0, 0, 128, 0, 128, -64)
+
+[node name="ShootPoint" type="Marker2D" parent="Gun"]
+unique_name_in_owner = true
+position = Vector2(64, -16)
