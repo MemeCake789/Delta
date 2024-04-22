@@ -1,4 +1,5 @@
 res://scenes/main.tscn
 res://scenes/main.tres
 res://src/Bullet.gd
-res://README.md
+res://scenes/bullet.tscn
+res://src/Gun.gd

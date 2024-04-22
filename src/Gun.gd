@@ -11,6 +11,13 @@ func shoot():
 	new_bullet.global_rotation = %ShootPoint.global_rotation
 	%ShootPoint.add_child(new_bullet)
 
+	# Apply impulse
+	var mouse_pos = get_global_mouse_position()
+	var dir = (mouse_pos - new_bullet.global_position).normalized()
+	var impulse = dir * 10000  # Adjust the multiplier as needed
+	new_bullet.apply_central_impulse(impulse)
+
+
 func _ready():
 	pass  # Replace with function body.
 
