@@ -1,5 +1,11 @@
 res://scenes/main.tscn
 res://scenes/main.tres
-res://src/Bullet.gd
-res://scenes/bullet.tscn
-res://src/Gun.gd
+res://scenes/enemy.tscn
+res://src/State.gd
+res://src/StateMachine.gd
+res://src/EnemyIdle.gd
+res://scenes/player.tscn
+res://src/States/EnemyFollow.gd
+res://src/States/EnemyIdle.gd
+res://src/States/StateMachine.gd
+res://README.md

@@ -9,6 +9,9 @@ size = Vector2(52, 10)
 [node name="Bullet" type="RigidBody2D"]
 top_level = true
 mass = 0.1
+can_sleep = false
+freeze_mode = 1
+continuous_cd = 1
 script = ExtResource("1_d02ld")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -21,3 +24,11 @@ offset_right = 999.0
 offset_bottom = 1019.0
 scale = Vector2(0.05, 0.01)
 texture = ExtResource("2_3tu0j")
+metadata/_edit_use_anchors_ = true
+
+[node name="Timer" type="Timer" parent="."]
+process_callback = 0
+wait_time = 10.0
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

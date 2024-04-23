@@ -6,5 +6,6 @@ A simple platfomer
 - [x] Create shooting system 
 - [ ] Add global 2D shadows
 - [x] Wall Jumping
-- [ ] Implement better shooting system
-- [ ] Add enemy AI
+- [x] Implement better shooting system
+- [x] Add enemy AI
+- - [ ] Add code to sates

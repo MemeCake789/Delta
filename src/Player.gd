@@ -3,6 +3,7 @@ extends CharacterBody2D
 @export var walkSpeed = 700
 @export var runSpeed = 1200
 @export var jumpVelocity:int = -1000
+
 var walkAcceleration: int = 2000                  # Adjust this value to control acceleration when walking
 var runAcceleration: int = 3000                   # Adjust this value to control acceleration when running
 var wallJumpPower:int = 700                       # Power when jumping off wall

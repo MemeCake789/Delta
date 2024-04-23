@@ -12,10 +12,8 @@ func shoot():
 	%ShootPoint.add_child(new_bullet)
 
 	# Apply impulse
-	var mouse_pos = get_global_mouse_position()
-	var dir = (mouse_pos - new_bullet.global_position).normalized()
-	var impulse = dir * 10000  # Adjust the multiplier as needed
-	new_bullet.apply_central_impulse(impulse)
+
+
 
 
 func _ready():
@@ -23,7 +21,6 @@ func _ready():
 
 func _input(event):
 	if event.is_action_pressed("shoot"):
-		
 		shoot()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
