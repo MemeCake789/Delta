@@ -1,8 +1,8 @@
 extends CharacterBody2D
 
-@export var walkSpeed = 700
-@export var runSpeed = 1200
-@export var jumpVelocity:int = -1000
+@export var walkSpeed : int = 700
+@export var runSpeed : int = 1200
+@export var jumpVelocity : int = -1000
 
 var walkAcceleration: int = 2000                  # Adjust this value to control acceleration when walking
 var runAcceleration: int = 3000                   # Adjust this value to control acceleration when running
@@ -74,7 +74,7 @@ func _physics_process(delta):
 
 	move_and_slide()
 
-	if global_position.y > 4000:
+	if global_position.y > 8000:
 		global_position = Vector2.ZERO
 
 

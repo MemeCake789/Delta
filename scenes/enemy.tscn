@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://dvir70o6horkr"]
+[gd_scene load_steps=8 format=3 uid="uid://dvir70o6horkr"]
 
 [ext_resource type="Script" path="res://src/Enemy.gd" id="1_hq5kv"]
 [ext_resource type="Texture2D" uid="uid://b4t0kuav5khdc" path="res://assets/proto/Red/texture_05.png" id="2_xe7qq"]
 [ext_resource type="Script" path="res://src/States/StateMachine.gd" id="3_1suqh"]
+[ext_resource type="Script" path="res://src/EnemyRayCast.gd" id="3_5hudb"]
 [ext_resource type="Script" path="res://src/States/EnemyIdle.gd" id="4_t1bhs"]
 [ext_resource type="Script" path="res://src/States/EnemyFollow.gd" id="5_sr21w"]
 
@@ -15,9 +16,14 @@ script = ExtResource("1_hq5kv")
 scale = Vector2(0.1, 0.1)
 texture = ExtResource("2_xe7qq")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="Hitbox" type="CollisionShape2D" parent="."]
 scale = Vector2(5.1, 5.1)
 shape = SubResource("RectangleShape2D_81ghr")
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+target_position = Vector2(140, 0)
+collision_mask = 2
+script = ExtResource("3_5hudb")
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
 script = ExtResource("3_1suqh")
@@ -27,6 +33,19 @@ initial_state = NodePath("Idle")
 script = ExtResource("4_t1bhs")
 enemy = NodePath("../..")
 
+[node name="IdleTimer" type="Timer" parent="StateMachine/Idle"]
+unique_name_in_owner = true
+autostart = true
+
 [node name="Follow" type="Node" parent="StateMachine" node_paths=PackedStringArray("enemy")]
 script = ExtResource("5_sr21w")
 enemy = NodePath("../..")
+
+[node name="FollowTimer" type="Timer" parent="StateMachine/Follow"]
+unique_name_in_owner = true
+wait_time = 0.5
+
+[connection signal="player_found" from="RayCast2D" to="StateMachine/Idle" method="_on_ray_cast_2d_player_found"]
+[connection signal="player_not_found" from="RayCast2D" to="StateMachine/Follow" method="_on_ray_cast_2d_player_not_found"]
+[connection signal="timeout" from="StateMachine/Idle/IdleTimer" to="StateMachine/Idle" method="_on_idle_timer_timeout"]
+[connection signal="timeout" from="StateMachine/Follow/FollowTimer" to="StateMachine/Follow" method="_on_follow_timer_timeout"]

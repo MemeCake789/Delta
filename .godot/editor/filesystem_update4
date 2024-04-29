@@ -1,7 +1,4 @@
 res://scenes/main.tscn
-res://src/States/EnemyFollow.gd
 res://scenes/main.tres
-res://scenes/enemy.tscn
-res://scenes/player.tscn
-res://src/Enemy.gd
-res://src/States/EnemyIdle.gd
+res://src/Player.gd
+res://README.md

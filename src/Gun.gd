@@ -1,7 +1,7 @@
 extends Node2D
 
-@export var smoothing_factor = 20
-@export var max_offset = 100  # Maximum offset value
+@export var smoothing_factor : int = 20
+@export var max_offset : int = 100  # Maximum offset value
 
 
 func shoot():
