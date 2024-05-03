@@ -18,6 +18,9 @@ var previousDirection = 0 # Keep track of the previous direction
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
+@export var health = 0
+
+
 
 func jump():
 	if Input.is_action_pressed("jump"):
@@ -37,6 +40,17 @@ func run():
 	else:
 		curentSpeed = walkSpeed
 		deceleration = 1500
+
+func _process(delta):
+	if Input.is_action_just_pressed("two"):
+		health += 1
+		if health > 10:
+			health = 10
+
+	if Input.is_action_just_pressed("one"):
+		health -= 1
+		if health < 0:
+			health = 0
 
 func _physics_process(delta):
 	# Add the gravity.

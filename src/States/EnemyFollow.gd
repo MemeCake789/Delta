@@ -10,14 +10,11 @@ func Enter():
 	timer.start()
 	
 	player = get_tree().get_first_node_in_group("Player")
-	print_rich("[color=red]Enter on EnemyFollow[/color]")
+
 	
 	
 func Update(delta : float):
-	print_rich("[color=red]Update on EnemyFollow[/color]")
-	
-	#var distance = enemy.global_position - player.global_position
-	print_rich("[color=red]Physics_Update on EnemyFollow[/color]")
+	pass
 	
 	#if distance.length() > 500:
 		#Transitioned.emit(self, "idle")
