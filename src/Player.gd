@@ -20,6 +20,8 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 @export var health = 0
 
+var push_force = 80.0
+
 
 
 func jump():
@@ -87,7 +89,12 @@ func _physics_process(delta):
 		velocity.x = move_toward(velocity.x, 0, deceleration * delta)
 
 	move_and_slide()
-
+	
+	#for i in get_slide_collision_count():
+		#var c = get_slide_collision(i)
+		#if c.get_collider() is RigidBody2D:
+			#c.get_collider().apply_central_impulse(-c.get_normal() * push_force)
+	# ^ collision ^ does not work well on bullets
 	if global_position.y > 8000:
 		global_position = Vector2.ZERO
 

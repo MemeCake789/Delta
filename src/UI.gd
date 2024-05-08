@@ -1,17 +1,17 @@
 extends CanvasLayer
 
 var health_states = [
-	"[::::::::::]",
-	"[@:::::::::]",
-	"[@@::::::::]",
-	"[@@@:::::::]",
-	"[@@@@::::::]",
-	"[@@@@@:::::]",
-	"[@@@@@@::::]",
-	"[@@@@@@@:::]",
-	"[@@@@@@@@::]",
-	"[@@@@@@@@@:]",
-	"[@@@@@@@@@@]"
+	"[▯▯▯▯▯▯▯▯▯▯]",
+	"[▮▯▯▯▯▯▯▯▯▯]",
+	"[▮▮▯▯▯▯▯▯▯▯]",
+	"[▮▮▮▯▯▯▯▯▯▯]",
+	"[▮▮▮▮▯▯▯▯▯▯]",
+	"[▮▮▮▮▮▯▯▯▯▯]",
+	"[▮▮▮▮▮▮▯▯▯▯]",
+	"[▮▮▮▮▮▮▮▯▯▯]",
+	"[▮▮▮▮▮▮▮▮▯▯]",
+	"[▮▮▮▮▮▮▮▮▮▯]",
+	"[▮▮▮▮▮▮▮▮▮▮]"
 ]
 
 
@@ -25,6 +25,6 @@ func _ready():
 func _process(delta):
 
 	health.text = "Health: " + health_states[Player.health]
-	##%Health.text = health_states[health] 
+	#%Health.text = health_states[health] 
 	#var offset = Player.velocity * delta
 	#health.position += offset

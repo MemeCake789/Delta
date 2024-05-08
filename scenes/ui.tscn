@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://bl3aq6doi88md"]
 
 [ext_resource type="Script" path="res://src/UI.gd" id="1_1n777"]
-[ext_resource type="FontFile" uid="uid://csfwswkk7tav4" path="res://assets/BigBlue_TerminalPlus.TTF" id="2_ca11s"]
+[ext_resource type="FontFile" uid="uid://b5uh3dlfjrdul" path="res://assets/NDS12.ttf" id="2_v8o8b"]
 
 [node name="UI" type="CanvasLayer"]
 script = ExtResource("1_1n777")
@@ -14,18 +14,21 @@ offset_right = 629.0
 offset_bottom = 45.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
-theme_override_fonts/normal_font = ExtResource("2_ca11s")
+theme_override_fonts/normal_font = ExtResource("2_v8o8b")
 theme_override_font_sizes/normal_font_size = 20
-text = "Health :  [ :::::::::: ]"
+text = "Health :  [ ▯▯▯▯▯▯▯▯▯▯ ]"
 
-[node name="RichTextLabel" type="RichTextLabel" parent="."]
+[node name="Game Version" type="RichTextLabel" parent="."]
+unique_name_in_owner = true
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_left = 5.0
-offset_top = -25.0
-offset_right = 435.0
-offset_bottom = -5.0
+offset_left = 4.0
+offset_top = -21.0
+offset_right = 608.0
 grow_vertical = 0
-theme_override_fonts/normal_font = ExtResource("2_ca11s")
-text = "Use keys \"1\" and \"2\" to change health"
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_fonts/normal_font = ExtResource("2_v8o8b")
+theme_override_font_sizes/normal_font_size = 15
+text = "|: Delta Beta Version 0.0.1 BETA :|"

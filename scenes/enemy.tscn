@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://dvir70o6horkr"]
+[gd_scene load_steps=9 format=3 uid="uid://dvir70o6horkr"]
 
 [ext_resource type="Script" path="res://src/Enemy.gd" id="1_hq5kv"]
 [ext_resource type="Texture2D" uid="uid://b4t0kuav5khdc" path="res://assets/proto/Red/texture_05.png" id="2_xe7qq"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://src/EnemyRayCast.gd" id="3_5hudb"]
 [ext_resource type="Script" path="res://src/States/EnemyIdle.gd" id="4_t1bhs"]
 [ext_resource type="Script" path="res://src/States/EnemyFollow.gd" id="5_sr21w"]
+[ext_resource type="FontFile" uid="uid://b5uh3dlfjrdul" path="res://assets/NDS12.ttf" id="7_8654b"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_81ghr"]
 
@@ -43,7 +44,24 @@ enemy = NodePath("../..")
 
 [node name="FollowTimer" type="Timer" parent="StateMachine/Follow"]
 unique_name_in_owner = true
-wait_time = 0.5
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+modulate = Color(0.1, 0.043, 0.07245, 1)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -44.0
+offset_top = -65.0
+offset_right = 95.0
+offset_bottom = 64.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/normal_font = ExtResource("7_8654b")
+theme_override_font_sizes/normal_font_size = 100
+theme_override_font_sizes/bold_font_size = 0
+text = "☹"
 
 [connection signal="player_found" from="RayCast2D" to="StateMachine/Idle" method="_on_ray_cast_2d_player_found"]
 [connection signal="player_not_found" from="RayCast2D" to="StateMachine/Follow" method="_on_ray_cast_2d_player_not_found"]

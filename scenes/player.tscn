@@ -1,15 +1,16 @@
-[gd_scene load_steps=6 format=3 uid="uid://bdyi8allsdfyv"]
+[gd_scene load_steps=7 format=3 uid="uid://bdyi8allsdfyv"]
 
 [ext_resource type="Script" path="res://src/Player.gd" id="1_gqmup"]
 [ext_resource type="Texture2D" uid="uid://g2ix2c1mlnr5" path="res://assets/proto/Orange/texture_10.png" id="2_melc0"]
 [ext_resource type="Script" path="res://src/Camera.gd" id="2_rculh"]
 [ext_resource type="PackedScene" uid="uid://o81f3x620jni" path="res://scenes/gun.tscn" id="4_0mval"]
+[ext_resource type="FontFile" uid="uid://b5uh3dlfjrdul" path="res://assets/NDS12.ttf" id="5_7meq6"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_152bx"]
 size = Vector2(120, 120)
 
 [node name="Player" type="CharacterBody2D" groups=["Player"]]
-collision_layer = 3
+collision_layer = 2
 collision_mask = 3
 script = ExtResource("1_gqmup")
 
@@ -33,3 +34,14 @@ scale = Vector2(0.1, 0.1)
 texture = ExtResource("2_melc0")
 
 [node name="Gun" parent="." instance=ExtResource("4_0mval")]
+z_index = 5
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+modulate = Color(0.182904, 0.0812076, 6.01634e-08, 1)
+offset_left = -45.0
+offset_top = -65.0
+offset_right = 132.0
+offset_bottom = 86.0
+theme_override_fonts/normal_font = ExtResource("5_7meq6")
+theme_override_font_sizes/normal_font_size = 100
+text = "☸"
