@@ -1,13 +1,22 @@
-[gd_scene load_steps=3 format=3 uid="uid://bl3aq6doi88md"]
+[gd_scene load_steps=5 format=3 uid="uid://bl3aq6doi88md"]
 
 [ext_resource type="Script" path="res://src/UI.gd" id="1_1n777"]
 [ext_resource type="FontFile" uid="uid://b5uh3dlfjrdul" path="res://assets/NDS12.ttf" id="2_v8o8b"]
+[ext_resource type="Script" path="res://scenes/PlayerHealthUI.gd" id="3_3w1g1"]
+[ext_resource type="Script" path="res://scenes/GunUI.gd" id="4_lb7kq"]
 
 [node name="UI" type="CanvasLayer"]
 script = ExtResource("1_1n777")
 
-[node name="Health" type="RichTextLabel" parent="."]
+[node name="Main" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Health" type="RichTextLabel" parent="Main"]
 unique_name_in_owner = true
+layout_mode = 0
 offset_left = 25.0
 offset_top = 15.0
 offset_right = 629.0
@@ -18,17 +27,71 @@ theme_override_fonts/normal_font = ExtResource("2_v8o8b")
 theme_override_font_sizes/normal_font_size = 20
 text = "Health :  [ ▯▯▯▯▯▯▯▯▯▯ ]"
 
-[node name="Game Version" type="RichTextLabel" parent="."]
+[node name="Gun" type="RichTextLabel" parent="Main"]
 unique_name_in_owner = true
+layout_mode = 0
+offset_left = 32.0
+offset_top = 496.0
+offset_right = 636.0
+offset_bottom = 526.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_fonts/normal_font = ExtResource("2_v8o8b")
+theme_override_font_sizes/normal_font_size = 20
+text = "Beretta M9
+"
+
+[node name="GunImage" type="RichTextLabel" parent="Main"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_top = 520.0
+offset_right = 160.0
+offset_bottom = 616.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_fonts/normal_font = ExtResource("2_v8o8b")
+theme_override_font_sizes/normal_font_size = 20
+text = "      __,_____
+     //__.==--\"
+    ///-'
+    '-'
+"
+
+[node name="Ammo" type="RichTextLabel" parent="Main"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 88.0
+offset_top = 568.0
+offset_right = 692.0
+offset_bottom = 616.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_fonts/normal_font = ExtResource("2_v8o8b")
+theme_override_font_sizes/normal_font_size = 20
+text = "Ammo: [] [] [] [] [] [] [] [] [] []
+"
+
+[node name="Game Version" type="RichTextLabel" parent="Main"]
+unique_name_in_owner = true
+layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_left = 4.0
-offset_top = -21.0
-offset_right = 608.0
+offset_left = 904.0
+offset_top = 552.0
+offset_right = 1508.0
+offset_bottom = 573.0
 grow_vertical = 0
 size_flags_horizontal = 0
 size_flags_vertical = 0
 theme_override_fonts/normal_font = ExtResource("2_v8o8b")
 theme_override_font_sizes/normal_font_size = 15
-text = "|: Delta Beta Version 0.0.1 BETA :|"
+text = "|: Delta Beta Version 0.0.2 BETA :|"
+
+[node name="UiManager" type="Node" parent="."]
+
+[node name="Health" type="Node" parent="UiManager"]
+script = ExtResource("3_3w1g1")
+
+[node name="Gun" type="Node" parent="UiManager"]
+script = ExtResource("4_lb7kq")
