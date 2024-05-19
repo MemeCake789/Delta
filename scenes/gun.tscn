@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://o81f3x620jni"]
+[gd_scene load_steps=4 format=3 uid="uid://o81f3x620jni"]
 
 [ext_resource type="Script" path="res://src/Gun.gd" id="1_cuqjx"]
 [ext_resource type="Texture2D" uid="uid://dt1thsdtctw74" path="res://assets/default.png" id="1_f7dx4"]
+[ext_resource type="FontFile" uid="uid://b5uh3dlfjrdul" path="res://assets/NDS12.ttf" id="3_2ifil"]
 
 [node name="GunPivot" type="Node2D"]
 script = ExtResource("1_cuqjx")
@@ -12,9 +13,27 @@ position = Vector2(128, 0)
 [node name="Polygon2D" type="Polygon2D" parent="Gun"]
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("1_f7dx4")
+texture_offset = Vector2(78, 127)
 texture_scale = Vector2(4, 4)
-polygon = PackedVector2Array(-64, -64, -64, 64, 0, 64, 0, 0, 128, 0, 128, -64)
+polygon = PackedVector2Array(-78, 64, -50, -62, 128, -62, 162, -62, 162, -22, 48, -22, 36, 22, 22, 22, 32, -12, -16, -12, -22, 10, 10, 10, 6, 22, -26, 22, -38, 64)
 
 [node name="ShootPoint" type="Marker2D" parent="Gun"]
 unique_name_in_owner = true
 position = Vector2(64, -16)
+
+[node name="GunImage" type="RichTextLabel" parent="Gun"]
+unique_name_in_owner = true
+modulate = Color(0.315552, 0.0754843, 0.0626701, 1)
+offset_left = -61.0
+offset_top = -50.0
+offset_right = 99.0
+offset_bottom = 46.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_fonts/normal_font = ExtResource("3_2ifil")
+theme_override_font_sizes/normal_font_size = 20
+text = "      __,_____
+     //__.==--\"
+    ///-'
+    '-'
+"

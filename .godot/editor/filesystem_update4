@@ -3,3 +3,10 @@ res://scenes/main.tres
 res://scenes/main.gdshader
 res://scenes/ui.tscn
 res://scenes/player.tscn
+res://scenes/gun.tscn
+res://scenes/bullet.tscn
+res://src/Player.gd
+res://src/Gun.gd
+res://src/Camera.gd
+res://src/PlayerHealthUI.gd
+res://src/GunUI.gd

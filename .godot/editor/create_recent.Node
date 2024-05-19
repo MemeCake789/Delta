@@ -1,7 +1,10 @@
-BackBufferCopy
 Control
+RichTextLabel
+TextureRect
+Panel
+Node2D
+BackBufferCopy
 SubViewport
 SubViewportContainer
 ColorRect
 CanvasLayer
-RichTextLabel

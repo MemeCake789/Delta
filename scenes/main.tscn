@@ -8,7 +8,7 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_fymqj"]
 shader = ExtResource("5_m24j6")
-shader_parameter/ascii_size = Vector2(8, 16)
+shader_parameter/ascii_size = Vector2(6, 14)
 shader_parameter/available_columns = 10
 shader_parameter/max_columns = 16
 shader_parameter/ascii_tex = ExtResource("5_jgcyl")
@@ -29,6 +29,7 @@ layer_0/tile_data = PackedInt32Array(196606, 196608, 0, 262142, 196608, 0, 19660
 layer = 5
 
 [node name="ASCII Shader" type="CanvasLayer" parent="."]
+visible = false
 
 [node name="ColorRect" type="ColorRect" parent="ASCII Shader"]
 material = SubResource("ShaderMaterial_fymqj")
@@ -37,3 +38,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[connection signal="updateAmmo" from="Player/Gun" to="UI/Gun_Manager" method="_on_gun_update_ammo"]
+
+[editable path="Player"]
+[editable path="UI"]

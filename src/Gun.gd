@@ -1,28 +1,31 @@
 extends Node2D
 
+#@onready var ammo_ui = get_node("/root/Ui/Gun_Manager")
+@export var ammo : int = 10
 
 @export var smoothing_factor : int = 20
 @export var max_offset : int = 100  # Maximum offset value
 
+signal updateAmmo(newValue :int)
 
-func shoot():
+func spawn_bullet():
 	const BULLET = preload("res://scenes/bullet.tscn")
 	var new_bullet = BULLET.instantiate()
 	new_bullet.global_position = %ShootPoint.global_position
 	new_bullet.global_rotation = %ShootPoint.global_rotation
-	%ShootPoint.add_child(new_bullet)
-
-	# Apply impulse
-
-
-
+	%ShootPoint.add_child(new_bullet)	
 
 func _ready():
-	pass  # Replace with function body.
+	pass
 
 func _input(event):
+	
+	
 	if event.is_action_pressed("shoot"):
-		shoot()
+		if ammo > 0:
+			ammo = ammo - 1
+			spawn_bullet()
+			updateAmmo.emit(ammo)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -42,3 +45,4 @@ func _process(delta):
 		scale.y = -1
 	else:
 		scale.y = 1
+

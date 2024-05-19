@@ -1,39 +1,130 @@
-[gd_scene load_steps=5 format=3 uid="uid://bl3aq6doi88md"]
+[gd_scene load_steps=7 format=3 uid="uid://bl3aq6doi88md"]
 
 [ext_resource type="Script" path="res://src/UI.gd" id="1_1n777"]
 [ext_resource type="FontFile" uid="uid://b5uh3dlfjrdul" path="res://assets/NDS12.ttf" id="2_v8o8b"]
-[ext_resource type="Script" path="res://scenes/PlayerHealthUI.gd" id="3_3w1g1"]
-[ext_resource type="Script" path="res://scenes/GunUI.gd" id="4_lb7kq"]
+[ext_resource type="Script" path="res://src/PlayerHealthUI.gd" id="3_hkce2"]
+[ext_resource type="Script" path="res://src/GunUI.gd" id="4_arw2j"]
+[ext_resource type="Texture2D" uid="uid://uhqnpoc1etyv" path="res://assets/Command_prompt_icon_(windows).png" id="5_dgxdt"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i7k7h"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 1
+border_width_top = 16
+border_width_right = 1
+border_width_bottom = 1
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
 
 [node name="UI" type="CanvasLayer"]
 script = ExtResource("1_1n777")
 
-[node name="Main" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="Health" type="RichTextLabel" parent="Main"]
+[node name="Health_Manager" type="Node" parent="."]
 unique_name_in_owner = true
-layout_mode = 0
-offset_left = 25.0
-offset_top = 15.0
-offset_right = 629.0
-offset_bottom = 45.0
+script = ExtResource("3_hkce2")
+
+[node name="Gun_Manager" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("4_arw2j")
+
+[node name="Game Version" type="RichTextLabel" parent="."]
+unique_name_in_owner = true
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -152.0
+offset_top = -16.0
+offset_right = 2.0
+grow_horizontal = 0
+grow_vertical = 0
+scale = Vector2(1.00445, 1.06519)
 size_flags_horizontal = 0
 size_flags_vertical = 0
 theme_override_fonts/normal_font = ExtResource("2_v8o8b")
-theme_override_font_sizes/normal_font_size = 20
-text = "Health :  [ ▯▯▯▯▯▯▯▯▯▯ ]"
+theme_override_font_sizes/normal_font_size = 10
+text = "|: Delta Version 0.0.2 ALPHA :|"
 
-[node name="Gun" type="RichTextLabel" parent="Main"]
+[node name="Item Terminal" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -40.0
+offset_right = 40.0
+grow_vertical = 0
+
+[node name="Main" type="Panel" parent="Item Terminal"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = -155.0
+offset_right = 407.0
+offset_bottom = -10.0
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_i7k7h")
+
+[node name="Icon" type="TextureRect" parent="Item Terminal/Main"]
+layout_mode = 1
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 15.0
+offset_bottom = 15.0
+texture = ExtResource("5_dgxdt")
+expand_mode = 1
+
+[node name="FileName" type="RichTextLabel" parent="Item Terminal/Main"]
+layout_mode = 1
+offset_left = 16.0
+offset_top = 3.0
+offset_right = 246.0
+offset_bottom = 13.0
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("2_v8o8b")
+theme_override_font_sizes/normal_font_size = 8
+text = "C:/Delta/EquipedItem.exe"
+scroll_active = false
+autowrap_mode = 1
+
+[node name="Buttons" type="RichTextLabel" parent="Item Terminal/Main"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -233.0
+offset_top = 3.0
+offset_right = -3.0
+offset_bottom = 13.0
+grow_horizontal = 0
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("2_v8o8b")
+theme_override_font_sizes/normal_font_size = 8
+text = "✕  ゠  —"
+scroll_active = false
+autowrap_mode = 1
+text_direction = 2
+
+[node name="Gun" type="Control" parent="Item Terminal"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+grow_vertical = 0
+size_flags_horizontal = 0
+
+[node name="GunName" type="RichTextLabel" parent="Item Terminal/Gun"]
 unique_name_in_owner = true
-layout_mode = 0
-offset_left = 32.0
-offset_top = 496.0
-offset_right = 636.0
-offset_bottom = 526.0
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 23.0
+offset_top = -132.0
+offset_right = 627.0
+offset_bottom = -102.0
+grow_vertical = 0
 size_flags_horizontal = 0
 size_flags_vertical = 0
 theme_override_fonts/normal_font = ExtResource("2_v8o8b")
@@ -41,12 +132,36 @@ theme_override_font_sizes/normal_font_size = 20
 text = "Beretta M9
 "
 
-[node name="GunImage" type="RichTextLabel" parent="Main"]
+[node name="Line" type="RichTextLabel" parent="Item Terminal/Gun"]
 unique_name_in_owner = true
-layout_mode = 0
-offset_top = 520.0
-offset_right = 160.0
-offset_bottom = 616.0
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 167.0
+offset_top = -135.0
+offset_right = 172.0
+offset_bottom = -18.0
+grow_vertical = 0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_fonts/normal_font = ExtResource("2_v8o8b")
+theme_override_font_sizes/normal_font_size = 20
+text = "|||||"
+scroll_active = false
+autowrap_mode = 1
+
+[node name="GunImage" type="RichTextLabel" parent="Item Terminal/Gun"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 13.0
+offset_top = -115.0
+offset_right = 172.0
+offset_bottom = -19.0
+grow_vertical = 0
 size_flags_horizontal = 0
 size_flags_vertical = 0
 theme_override_fonts/normal_font = ExtResource("2_v8o8b")
@@ -57,13 +172,35 @@ text = "      __,_____
     '-'
 "
 
-[node name="Ammo" type="RichTextLabel" parent="Main"]
+[node name="Type" type="RichTextLabel" parent="Item Terminal/Gun"]
 unique_name_in_owner = true
-layout_mode = 0
-offset_left = 88.0
-offset_top = 568.0
-offset_right = 692.0
-offset_bottom = 616.0
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 181.0
+offset_top = -132.0
+offset_right = 393.0
+offset_bottom = -84.0
+grow_vertical = 0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_fonts/normal_font = ExtResource("2_v8o8b")
+theme_override_font_sizes/normal_font_size = 20
+text = "Type: Firearm
+"
+
+[node name="GunAmmo" type="RichTextLabel" parent="Item Terminal/Gun"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 181.0
+offset_top = -108.0
+offset_right = 393.0
+offset_bottom = -60.0
+grow_vertical = 0
 size_flags_horizontal = 0
 size_flags_vertical = 0
 theme_override_fonts/normal_font = ExtResource("2_v8o8b")
@@ -71,27 +208,77 @@ theme_override_font_sizes/normal_font_size = 20
 text = "Ammo: [] [] [] [] [] [] [] [] [] []
 "
 
-[node name="Game Version" type="RichTextLabel" parent="Main"]
+[node name="Stats Terminal" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Main" type="Panel" parent="Stats Terminal"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = -32.0
+offset_right = 408.0
+offset_bottom = 352.0
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_i7k7h")
+
+[node name="Icon" type="TextureRect" parent="Stats Terminal/Main"]
+layout_mode = 1
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 15.0
+offset_bottom = 15.0
+texture = ExtResource("5_dgxdt")
+expand_mode = 1
+
+[node name="FileName" type="RichTextLabel" parent="Stats Terminal/Main"]
+layout_mode = 1
+offset_left = 16.0
+offset_top = 3.0
+offset_right = 246.0
+offset_bottom = 13.0
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("2_v8o8b")
+theme_override_font_sizes/normal_font_size = 8
+text = "C:/Delta/Stats.exe"
+scroll_active = false
+autowrap_mode = 1
+
+[node name="Buttons" type="RichTextLabel" parent="Stats Terminal/Main"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -233.0
+offset_top = 3.0
+offset_right = -3.0
+offset_bottom = 13.0
+grow_horizontal = 0
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("2_v8o8b")
+theme_override_font_sizes/normal_font_size = 8
+text = "✕  ゠  —"
+scroll_active = false
+autowrap_mode = 1
+text_direction = 2
+
+[node name="HealthUI" type="RichTextLabel" parent="Stats Terminal"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_left = 904.0
-offset_top = 552.0
-offset_right = 1508.0
-offset_bottom = 573.0
+offset_left = 16.0
+offset_top = -8.0
+offset_right = 620.0
+offset_bottom = 22.0
 grow_vertical = 0
 size_flags_horizontal = 0
 size_flags_vertical = 0
 theme_override_fonts/normal_font = ExtResource("2_v8o8b")
-theme_override_font_sizes/normal_font_size = 15
-text = "|: Delta Beta Version 0.0.2 BETA :|"
-
-[node name="UiManager" type="Node" parent="."]
-
-[node name="Health" type="Node" parent="UiManager"]
-script = ExtResource("3_3w1g1")
-
-[node name="Gun" type="Node" parent="UiManager"]
-script = ExtResource("4_lb7kq")
+theme_override_font_sizes/normal_font_size = 20
+text = "Health :                         [ ▯▯▯▯▯▯▯▯▯▯ ]"

@@ -9,3 +9,5 @@ A simple platfomer
 - [x] Add enemy AI
 - - [x] Add code to sates
 - [ ] Add player and enemy health
+- [ ] Fix ammo_update
+- [ ] Find out how to acces varables from another scence
